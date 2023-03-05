@@ -2,7 +2,6 @@
   "name": "intention",
   "version": "0.1.0",
   "private": true,
-  "author": "Miguel 'Mikedavinci' Esparza ",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,16 +9,25 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^2.2.2",
+    "@fortawesome/fontawesome-svg-core": "^6.3.0",
+    "@fortawesome/free-solid-svg-icons": "^6.3.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.16",
+    "@next/font": "^13.2.3",
     "@types/node": "18.14.6",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
     "eslint": "8.35.0",
     "eslint-config-next": "13.2.3",
+    "mongodb": "^5.1.0",
     "next": "13.2.3",
+    "numeral": "^2.0.6",
+    "openai": "^3.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "stripe": "^11.13.0",
     "typescript": "4.9.5"
   },
   "devDependencies": {
