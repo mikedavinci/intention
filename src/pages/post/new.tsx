@@ -1,10 +1,14 @@
-import Head from 'next/head'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
+import Head from 'next/head';
+import { Inter } from 'next/font/google';
+import styles from '@/styles/Home.module.css';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { AppLayout } from '@/components/AppLayout';
+import Dashboard from '@/components/AppLayout/AppLayout2';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
-export default function NewPost() {
+export default function NewPost(props: any) {
+  console.log('New Post', props);
   return (
     <>
       <Head>
@@ -13,11 +17,16 @@ export default function NewPost() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-            <p>Test Content for New Post</p>
-        </div>
-      </main>
     </>
-  )
+  );
 }
+
+NewPost.getLayout = function getLayout(page: any, pageProps: any) {
+  return <Dashboard {...pageProps}>{page}</Dashboard>;
+};
+
+export const getServerSideProps = withPageAuthRequired(() => {
+  return {
+    props: {},
+  };
+});

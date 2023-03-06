@@ -1,8 +1,9 @@
-import Head from 'next/head'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
+import Head from 'next/head';
+import { Inter } from 'next/font/google';
+import styles from '@/styles/Home.module.css';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 export default function TokenTopup() {
   return (
@@ -15,9 +16,15 @@ export default function TokenTopup() {
       </Head>
       <main className={styles.main}>
         <div className={styles.description}>
-            <p>Test Content for Token Topup</p>
+          <p>Test Content for Token Topup</p>
         </div>
       </main>
     </>
-  )
+  );
 }
+
+export const getServerSideProps = withPageAuthRequired(() => {
+  return {
+    props: {},
+  };
+});
