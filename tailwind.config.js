@@ -9,11 +9,17 @@ module.exports = {
     './src/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        body: 'var(--font-dm-sans)',
+        heading: 'var(--font-dm-serif-display)',
+      },
+    },
   },
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/line-clamp'),
+    require('@tailwindcss/aspect-ratio'),
   ],
 };

@@ -18,6 +18,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import Logo from '@/components/Logo/Logo';
 
 const navigation = [
   { name: 'Product', href: '#' },
@@ -144,17 +145,13 @@ export default function Home() {
       {/* Header */}
       <header className="absolute inset-x-0 top-0 z-50">
         <nav
-          className="flex items-center justify-between p-6 lg:px-8"
+          className="flex items-center justify-between p-6 lg:px-8 "
           aria-label="Global"
         >
           <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                alt=""
-              />
+              <span className="sr-only">Helping Giant</span>
+              <Logo />
             </a>
           </div>
           <div className="flex lg:hidden">
@@ -238,12 +235,8 @@ export default function Home() {
           <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between">
               <a href="#" className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
-                <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                  alt=""
-                />
+                <span className="sr-only">Helping Giant</span>
+                <Logo />
               </a>
               <button
                 type="button"
@@ -758,13 +751,7 @@ export default function Home() {
         </h2>
         <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8 lg:py-32">
           <div className="xl:grid xl:grid-cols-3 xl:gap-8">
-            <Image
-              className="h-7"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-              alt="Company name"
-              width={58}
-              height={16}
-            />
+            <Logo />
             <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
               <div className="md:grid md:grid-cols-2 md:gap-8">
                 <div>

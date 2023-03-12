@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { Menu, Popover, Transition } from '@headlessui/react';
 import {
   AcademicCapIcon,
@@ -15,6 +15,10 @@ import {
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import Image from 'next/image';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCoins, faUser } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
+import Logo from '@/components/Logo/Logo';
 
 const user = {
   name: 'Chelsea Hagon',
@@ -35,10 +39,16 @@ const userNavigation = [
   { name: 'Settings', href: '#' },
   { name: 'Sign out', href: '/api/auth/logout' },
 ];
+
 const stats = [
-  { label: 'Vacation days left', value: 12 },
-  { label: 'Sick days left', value: 4 },
-  { label: 'Personal days left', value: 2 },
+  {
+    label: 'Tokens ',
+    value: '1,200',
+    icon: faCoins,
+    href: '/token-topup',
+  },
+  { label: 'Posts', value: 4, href: '/post/new' },
+  { label: 'Campaigns', value: 2, href: '#' },
 ];
 const actions = [
   {
@@ -142,9 +152,21 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export const Dashboard = () => {
+export const Dashboard = ({ children }) => {
   const { user, error, isLoading } = useUser();
   // console.log(user);
+
+  const [postContent, setPostContent] = useState('');
+
+  const handleClick = async () => {
+    console.log('clicked');
+    const response = await fetch(`/api/generatePost`, {
+      method: 'POST',
+    });
+    const data = await response.json();
+    console.log('data', data.post.postContent);
+    setPostContent(data.post.postContent);
+  };
 
   return (
     <>
@@ -160,14 +182,8 @@ export const Dashboard = () => {
                   {/* Logo */}
                   <div className="absolute left-0 flex-shrink-0 py-5 lg:static">
                     <a href="#">
-                      <span className="sr-only">Your Company</span>
-                      <Image
-                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-300.svg"
-                        alt=""
-                        width={32}
-                        height={32}
-                        className="h-8 w-auto"
-                      />
+                      <span className="sr-only">Helping Giant</span>
+                      <Logo />
                     </a>
                   </div>
 
@@ -480,102 +496,50 @@ export const Dashboard = () => {
                           </div>
                         </div>
                         <div className="mt-5 flex justify-center sm:mt-0">
-                          <a
-                            href="#"
+                          <Link
+                            href="/post/new"
                             className="flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                            // onClick={handleClick}
                           >
-                            View profile
-                          </a>
+                            New Post
+                          </Link>
                         </div>
                       </div>
-                    </div>
-                    <div className="grid grid-cols-1 divide-y divide-gray-200 border-t border-gray-200 bg-gray-50 sm:grid-cols-3 sm:divide-y-0 sm:divide-x">
-                      {stats.map((stat) => (
-                        <div
-                          key={stat.label}
-                          className="px-6 py-5 text-center text-sm font-medium"
-                        >
-                          <span className="text-gray-900">{stat.value}</span>{' '}
-                          <span className="text-gray-600">{stat.label}</span>
-                        </div>
-                      ))}
+                      <div className="grid grid-cols-1 divide-y divide-gray-200 border-t border-gray-200 bg-gray-50 sm:grid-cols-3 sm:divide-y-0 sm:divide-x">
+                        {stats.map((stat) => (
+                          <div
+                            key={stat.label}
+                            className="px-6 py-5 text-center text-sm font-medium"
+                          >
+                            <Link
+                              href={stat.href || '#'}
+                              className="text-gray-900 pl-2"
+                            >
+                              <FontAwesomeIcon
+                                icon={stat.icon || faUser}
+                                className="w-4 h-4 text-yellow-500 pr-2"
+                              />
+                              {stat.value}
+
+                              <span className="text-gray-600 pl-1">
+                                {stat.label}
+                              </span>
+                            </Link>
+                          </div>
+                        ))}
+                      </div>
+                      {children}
+                      <div
+                        className="mt-6"
+                        dangerouslySetInnerHTML={{
+                          __html: postContent,
+                        }}
+                      ></div>
                     </div>
                   </div>
                 </section>
 
                 {/* Actions panel */}
-                <section aria-labelledby="quick-links-title">
-                  <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0">
-                    <h2 className="sr-only" id="quick-links-title">
-                      Quick links
-                    </h2>
-                    {actions.map((action, actionIdx) => (
-                      <div
-                        key={action.name}
-                        className={classNames(
-                          actionIdx === 0
-                            ? 'rounded-tl-lg rounded-tr-lg sm:rounded-tr-none'
-                            : '',
-                          actionIdx === 1 ? 'sm:rounded-tr-lg' : '',
-                          actionIdx === actions.length - 2
-                            ? 'sm:rounded-bl-lg'
-                            : '',
-                          actionIdx === actions.length - 1
-                            ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none'
-                            : '',
-                          'group relative bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-cyan-500'
-                        )}
-                      >
-                        <div>
-                          <span
-                            className={classNames(
-                              action.iconBackground,
-                              action.iconForeground,
-                              'inline-flex rounded-lg p-3 ring-4 ring-white'
-                            )}
-                          >
-                            <action.icon
-                              className="h-6 w-6"
-                              aria-hidden="true"
-                            />
-                          </span>
-                        </div>
-                        <div className="mt-8">
-                          <h3 className="text-lg font-medium">
-                            <a
-                              href={action.href}
-                              className="focus:outline-none"
-                            >
-                              {/* Extend touch target to entire panel */}
-                              <span
-                                className="absolute inset-0"
-                                aria-hidden="true"
-                              />
-                              {action.name}
-                            </a>
-                          </h3>
-                          <p className="mt-2 text-sm text-gray-500">
-                            Doloribus dolores nostrum quia qui natus officia
-                            quod et dolorem. Sit repellendus qui ut at
-                            blanditiis et quo et molestiae.
-                          </p>
-                        </div>
-                        <span
-                          className="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
-                          aria-hidden="true"
-                        >
-                          <svg
-                            className="h-6 w-6"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
-                          </svg>
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </section>
               </div>
 
               {/* Right column */}
