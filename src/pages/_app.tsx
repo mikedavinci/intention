@@ -2,7 +2,6 @@ import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { DM_Sans, DM_Serif_Display } from 'next/font/google';
-import { wrapper } from '../store/store';
 
 const dmSans = DM_Sans({
   weight: ['400', '500', '700'],
@@ -29,4 +28,4 @@ function App({ Component, pageProps }: AppProps) {
   );
 }
 
-export default wrapper.withRedux(App);
+export default App;
