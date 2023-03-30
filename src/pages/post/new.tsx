@@ -150,7 +150,7 @@ export default function NewPost(props: any) {
         <header className="py-5">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 flex items-center justify-between">
             <h1 className="text-3xl font-bold tracking-tight text-white">
-              Posts
+              SmartDoc AI Medical Diagnostic
             </h1>
             <Link
               href={'/token-topup'}
@@ -167,11 +167,15 @@ export default function NewPost(props: any) {
           <div className="space-y-6">
             <div>
               <h1 className="text-lg font-medium leading-6 text-gray-900">
-                New Post
+                SmartDoc AI Medical Diagnostic
               </h1>
               <p className="mt-1 text-sm text-gray-500">
-                Let’s get started by filling in the information below to create
-                a new post.
+                Let’s get started by filling out the form below. We will use the
+                information you provide to generate a diagnostic that will be
+                sent to our AI medical diagnostic engine. We will also provide
+                you with a list of possible medical conditions that you may have
+                based on the information you provide. Please be as descriptive
+                as possible when filling out the form below.
               </p>
             </div>
 
@@ -180,7 +184,8 @@ export default function NewPost(props: any) {
                 htmlFor="post-topic"
                 className="block text-lg font-medium leading-9 text-gray-900"
               >
-                Generate a Post about:
+                What medical symptoms are you experiencing? Please be as
+                descriptive as possible:
               </label>
               <div className="mt-2">
                 <input
@@ -197,7 +202,9 @@ export default function NewPost(props: any) {
                 htmlFor="keywords"
                 className="block text-lg font-medium leading-9 text-gray-900 mt-4"
               >
-                Targeting the following keywords:
+                Please enter any keywords that you think might be relevant to
+                your medical condition. For example, if you are experiencing a
+                headache, you might enter the word “headache”:
               </label>
               <div className="mt-2">
                 <input

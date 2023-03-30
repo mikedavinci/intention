@@ -14,7 +14,7 @@ const user = {
 };
 const navigation = [
   { name: 'Dashboard', href: '/dashboard/home', current: true },
-  { name: 'New Post', href: '/post/new', current: false },
+  { name: 'New Medical Diagnostic', href: '/post/new', current: false },
   { name: 'Add Tokens', href: '#', current: false },
   { name: 'Support', href: '#', current: false },
 ];

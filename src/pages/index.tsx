@@ -315,12 +315,13 @@ export default function Home() {
         {/* Hero section */}
         <div className="relative isolate overflow-hidden bg-gray-900 pt-14 pb-16 sm:pb-20">
           <Image
-            src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2830&q=80&blend=111827&sat=-100&exp=15&blend-mode=multiply"
+            src="https://res.cloudinary.com/dtgmhmxlx/image/upload/c_scale,w_1163/v1680135501/helpingGiant/Coding/coding_rwnk1x.jpg"
             alt=""
             className="absolute inset-0 -z-10 h-full w-full object-cover"
             width={1155}
             height={678}
           />
+
           <div className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]">
             <svg
               className="relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)] sm:h-[42.375rem]"
@@ -346,6 +347,7 @@ export default function Home() {
               </defs>
             </svg>
           </div>
+
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
               <div className="hidden sm:mb-8 sm:flex sm:justify-center">
@@ -359,12 +361,12 @@ export default function Home() {
               </div>
               <div className="text-center">
                 <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                  Deploy to the cloud with confidence
+                  Master the Art of Coding with Our Comprehensive Tutorials
                 </h1>
                 <p className="mt-6 text-lg leading-8 text-gray-300">
-                  Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure
-                  qui lorem cupidatat commodo. Elit sunt amet fugiat veniam
-                  occaecat fugiat aliqua.
+                  Learn coding from scratch or elevate your programming skills
+                  with our in-depth tutorials, designed for all skill levels.
+                  Get started now and unlock your coding potential.
                 </p>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                   <a
