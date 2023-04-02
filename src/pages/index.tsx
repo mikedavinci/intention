@@ -10,8 +10,8 @@ import {
 import {
   AcademicCapIcon,
   ArrowPathIcon,
+  CheckBadgeIcon,
   CheckIcon,
-  CloudArrowUpIcon,
   Cog6ToothIcon,
   FingerPrintIcon,
   GlobeAltIcon,
