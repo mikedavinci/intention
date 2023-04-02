@@ -1,36 +1,83 @@
+import { useState } from 'react';
+import { useRouter } from 'next/router';
 import UserPagesLayout from '@/components/AppLayout/AppLayout5';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/20/solid';
+import Link from 'next/link';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 export default function Login() {
+  const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleSubmit = async (event: {
+    preventDefault: () => void;
+    target: { email: { value: any }; password: { value: any } };
+  }) => {
+    event.preventDefault();
+
+    try {
+      const res = await axios.post(
+        'http://localhost:8001/api/login',
+        {
+          email: event.target.email.value,
+          password: event.target.password.value,
+        },
+
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
+        }
+      );
+
+      if (res.status === 200) {
+        // axios.defaults.headers.common[
+        //   'Authorization'
+        // ] = `Bearer ${res.data.token}`;
+        toast.success('Login successful');
+        router.push('/post/new');
+      }
+    } catch (error: any) {
+      toast.error('Login failed');
+    }
+  };
+
   return (
     <>
-      <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
+      {/* TODO - set image or video as a background */}
+      <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 ">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <img
             className="mx-auto h-12 w-auto"
             src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
             alt="Your Company"
           />
+
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-            Sign in to your account
+            Login
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <p className="mt-2 text-center text-lg text-gray-600">
             Or{' '}
-            <a
-              href="#"
+            <Link
+              href="/user/register"
               className="font-medium text-indigo-600 hover:text-indigo-500"
             >
-              start your 14-day free trial
-            </a>
+              create an account
+            </Link>
           </p>
         </div>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <form className="space-y-6" action="#" method="POST">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-xl font-medium leading-6 text-gray-900"
                 >
                   Email address
                 </label>
@@ -41,62 +88,60 @@ export default function Login() {
                     type="email"
                     autoComplete="email"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6"
                   />
                 </div>
               </div>
 
               <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Password
-                </label>
-                <div className="mt-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <label
+                      htmlFor="password"
+                      className="block text-xl font-medium leading-6 text-gray-900"
+                    >
+                      Password
+                    </label>
+                  </div>
+
+                  <div className="text-sm">
+                    <Link
+                      href="/user/forgot-password"
+                      className="font-medium text-indigo-600 hover:text-indigo-500"
+                    >
+                      Forgot your password?
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="relative mt-2">
                   <input
                     id="password"
                     name="password"
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     autoComplete="current-password"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6"
                   />
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <input
-                    id="remember-me"
-                    name="remember-me"
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label
-                    htmlFor="remember-me"
-                    className="ml-2 block text-sm text-gray-900"
+                  <span
+                    onClick={handleTogglePassword}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
                   >
-                    Remember me
-                  </label>
-                </div>
-
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-medium text-indigo-600 hover:text-indigo-500"
-                  >
-                    Forgot your password?
-                  </a>
+                    {showPassword ? (
+                      <EyeIcon className="h-5 w-5" />
+                    ) : (
+                      <EyeSlashIcon className="h-5 w-5" />
+                    )}
+                  </span>
                 </div>
               </div>
 
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex w-full justify-center rounded-md bg-indigo-600 py-2 px-3 text-2xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Sign in
+                  Login
                 </button>
               </div>
             </form>

@@ -1,13 +1,19 @@
+import UserPagesLayout from '@/components/AppLayout/AppLayout5';
 import axios from 'axios';
 import Link from 'next/link';
 import router from 'next/router';
 import { SyntheticEvent, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/20/solid';
 
 function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password_confirmation, setPasswordConfirmation] = useState('');
   const [redirect, setRedirect] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirmation, setShowPasswordConfirmation] =
+    useState(false);
 
   useEffect(() => {
     const htmlElement = document.querySelector('html');
@@ -25,20 +31,29 @@ function Register() {
   const submit = async (e: SyntheticEvent) => {
     e.preventDefault();
 
-    await axios.post(`http://localhost:8001/api/register`, {
-      email,
-      password,
-      password_confirmation,
-    });
-
-    setRedirect(true);
+    try {
+      const response = await axios.post(`http://localhost:8001/api/register`, {
+        email,
+        password,
+        password_confirmation,
+      });
+      if (response.status === 201) {
+        toast.success('Registration successful');
+        setRedirect(true);
+        router.push('/user/login');
+      }
+    } catch (error) {
+      toast.error('Registration failed');
+    }
   };
 
-  if (redirect === true) {
-    router.push('/user/login');
-  } else {
-    console.log('error registering user');
-  }
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleTogglePasswordConfirmation = () => {
+    setShowPasswordConfirmation(!showPasswordConfirmation);
+  };
 
   return (
     <>
@@ -52,8 +67,8 @@ function Register() {
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
             Create a New Account
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Already have an account?{' '}
+          <p className="mt-2 text-center text-lg text-gray-600">
+            or{' '}
             <Link
               href="/user/login"
               className="font-medium text-indigo-600 hover:text-indigo-500"
@@ -69,7 +84,7 @@ function Register() {
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-xl font-medium leading-6 text-gray-900"
                 >
                   Email address
                 </label>
@@ -80,7 +95,7 @@ function Register() {
                     type="email"
                     autoComplete="email"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6"
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
@@ -89,40 +104,60 @@ function Register() {
               <div>
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-xl font-medium leading-6 text-gray-900"
                 >
                   Password
                 </label>
-                <div className="mt-2">
+                <div className="relative mt-2">
                   <input
                     id="password"
                     name="password"
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     autoComplete="current-password"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6"
                     onChange={(e) => setPassword(e.target.value)}
                   />
+                  <span
+                    onClick={handleTogglePassword}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                  >
+                    {showPassword ? (
+                      <EyeIcon className="h-5 w-5" />
+                    ) : (
+                      <EyeSlashIcon className="h-5 w-5" />
+                    )}
+                  </span>
                 </div>
               </div>
 
               <div>
                 <label
                   htmlFor="confirm-password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-xl font-medium leading-6 text-gray-900"
                 >
                   Confirm password
                 </label>
-                <div className="mt-2">
+                <div className="relative mt-2">
                   <input
                     id="confirm-password"
                     name="confirm-password"
-                    type="password"
+                    type={showPasswordConfirmation ? 'text' : 'password'}
                     autoComplete="current-password"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6"
                     onChange={(e) => setPasswordConfirmation(e.target.value)}
                   />
+                  <span
+                    onClick={handleTogglePasswordConfirmation}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                  >
+                    {showPasswordConfirmation ? (
+                      <EyeIcon className="h-5 w-5" />
+                    ) : (
+                      <EyeSlashIcon className="h-5 w-5" />
+                    )}
+                  </span>
                 </div>
               </div>
 
@@ -155,7 +190,7 @@ function Register() {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex w-full justify-center rounded-md bg-indigo-600 py-2 px-3 text-2xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Register
                 </button>
@@ -243,3 +278,7 @@ function Register() {
 }
 
 export default Register;
+
+Register.getLayout = function getLayout(page: any, pageProps: any) {
+  return <UserPagesLayout {...pageProps}>{page}</UserPagesLayout>;
+};
