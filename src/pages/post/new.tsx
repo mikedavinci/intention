@@ -14,7 +14,6 @@ import {
   EllipsisVerticalIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
-import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import Dashboard2 from '@/components/AppLayout/AppLayout3';
 import { Fragment, useState } from 'react';
 import { CheckIcon } from '@heroicons/react/24/outline';
@@ -407,8 +406,8 @@ NewPost.getLayout = function getLayout(page: any, pageProps: any) {
   return <Dashboard2 {...pageProps}>{page}</Dashboard2>;
 };
 
-export const getServerSideProps = withPageAuthRequired(() => {
+export const getServerSideProps = () => {
   return {
     props: {},
   };
-});
+};

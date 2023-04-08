@@ -37,7 +37,7 @@ const navigation = [
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
   { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '/api/auth/logout' },
+  { name: 'Sign out', href: '/user/login' },
 ];
 
 const stats = [
@@ -159,12 +159,11 @@ export const Dashboard = ({ children }) => {
   const [postContent, setPostContent] = useState('');
 
   const handleClick = async () => {
-    console.log('clicked');
     const response = await fetch(`/api/generatePost`, {
       method: 'POST',
     });
     const data = await response.json();
-    console.log('data', data.post.postContent);
+    // console.log('data', data.post.postContent);
     setPostContent(data.post.postContent);
   };
 

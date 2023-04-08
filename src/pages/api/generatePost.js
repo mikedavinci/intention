@@ -2,18 +2,20 @@ import { getSession, withApiAuthRequired } from '@auth0/nextjs-auth0';
 import { Configuration, OpenAIApi } from 'openai';
 import clientPromise from '../../lib/mongodb';
 
-export default withApiAuthRequired(async function handler(req, res) {
-  const { user } = await getSession(req, res);
-  const client = await clientPromise;
-  const db = client.db('Intention');
-  const userProfile = await db.collection('users').findOne({
-    auth0Id: user.sub,
-  });
+export default (async function handler(req, res) {
+  // load user profile from mongodb
+  // const { user } = await getSession(req, res);
+  // const client = await clientPromise;
+  // const db = client.db('Intention');
+  // const userProfile = await db.collection('users').findOne({
+  //   auth0Id: user.sub,
+  // });
 
-  if (!userProfile?.availableTokens) {
-    res.status(403).json({ error: 'User not found' });
-    return;
-  }
+  // check if user has available tokens
+  // if (!userProfile?.availableTokens) {
+  //   res.status(403).json({ error: 'User not found' });
+  //   return;
+  // }
 
   const config = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
 

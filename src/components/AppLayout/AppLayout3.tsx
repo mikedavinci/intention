@@ -2,9 +2,10 @@ import { Fragment, useState } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { useUser } from '@auth0/nextjs-auth0/client';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store/store';
 
 const user = {
   name: 'Tom Cook',
@@ -21,7 +22,7 @@ const navigation = [
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
   { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '/api/auth/logout' },
+  { name: 'Sign out', href: 'logout' },
 ];
 
 function classNames(...classes) {
@@ -29,7 +30,13 @@ function classNames(...classes) {
 }
 
 function Dashboard2({ children }) {
-  const { user, error, isLoading } = useUser();
+  const auth = useSelector((state: RootState) => state.auth.value);
+
+  const user = {
+    name: auth?.user?.name || '',
+    email: auth?.user?.email || '',
+    imageUrl: auth?.user?.picture || '/images/avatar.png',
+  };
 
   return (
     <>
@@ -48,7 +55,7 @@ function Dashboard2({ children }) {
                         <Image
                           className="block h-8 w-8"
                           src="https://tailwindui.com/img/logos/mark.svg"
-                          alt="Your Company"
+                          alt="CodeJourney.ai"
                           width={32}
                           height={32}
                         />
@@ -127,13 +134,13 @@ function Dashboard2({ children }) {
                           <div>
                             <Menu.Button className="flex rounded-full bg-indigo-600 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600">
                               <span className="sr-only">Open user menu</span>
-                              <Image
+                              {/* <Image
                                 className="h-10 w-10 rounded-full"
                                 src={user?.picture || '/images/avatar.png'}
                                 width={48}
                                 height={48}
                                 alt=""
-                              />
+                              /> */}
                             </Menu.Button>
                           </div>
                           <Transition
@@ -191,21 +198,21 @@ function Dashboard2({ children }) {
                   <div className="border-t border-indigo-700 pt-4 pb-3">
                     <div className="flex items-center px-5">
                       <div className="flex-shrink-0">
-                        <Image
+                        {/* <Image
                           className="h-10 w-10 rounded-full"
                           src={user?.picture || '/images/avatar.png'}
                           alt=""
                           width={48}
                           height={48}
-                        />
+                        /> */}
                       </div>
                       <div className="ml-3">
-                        <div className="text-base font-medium text-white">
+                        {/* <div className="text-base font-medium text-white">
                           {user?.name}
                         </div>
                         <div className="text-sm font-medium text-indigo-300">
                           {user?.email}
-                        </div>
+                        </div> */}
                       </div>
                       <button
                         type="button"

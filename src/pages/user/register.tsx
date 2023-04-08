@@ -32,7 +32,7 @@ function Register() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`http://localhost:8001/api/register`, {
+      const response = await axios.post(`register`, {
         email,
         password,
         password_confirmation,

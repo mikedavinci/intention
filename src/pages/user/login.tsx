@@ -4,7 +4,8 @@ import UserPagesLayout from '@/components/AppLayout/AppLayout5';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import axiosInstance from '@/interceptors/axios';
+import Cookies from 'js-cookie';
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -21,8 +22,8 @@ export default function Login() {
     event.preventDefault();
 
     try {
-      const res = await axios.post(
-        'http://localhost:8001/api/login',
+      const res = await axiosInstance.post(
+        'login',
         {
           email: event.target.email.value,
           password: event.target.password.value,
@@ -35,11 +36,16 @@ export default function Login() {
       );
 
       if (res.status === 200) {
-        // axios.defaults.headers.common[
-        //   'Authorization'
-        // ] = `Bearer ${res.data.token}`;
+        const token = res.data.token;
+        Cookies.set('access_token', token);
+
+        // Set the authorization header for subsequen requests
+        axiosInstance.defaults.headers.common[
+          'Authorization'
+        ] = `Bearer ${token}`;
+
         toast.success('Login successful');
-        router.push('/post/new');
+        router.push('/');
       }
     } catch (error: any) {
       toast.error('Login failed');
@@ -128,9 +134,9 @@ export default function Login() {
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
                   >
                     {showPassword ? (
-                      <EyeIcon className="h-5 w-5" />
-                    ) : (
                       <EyeSlashIcon className="h-5 w-5" />
+                    ) : (
+                      <EyeIcon className="h-5 w-5" />
                     )}
                   </span>
                 </div>

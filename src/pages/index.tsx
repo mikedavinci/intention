@@ -26,8 +26,14 @@ import {
 } from '@heroicons/react/20/solid';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useUser } from '@auth0/nextjs-auth0/client';
 import Logo from '@/components/Logo/Logo';
+import axiosInstance from '@/interceptors/axios';
+import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAuth } from '@/redux/authSlice';
+import { RootState } from '@/redux/store/store';
+import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const posts = [
   {
@@ -415,7 +421,20 @@ function classNames(...classes) {
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user, error, isLoading } = useUser();
+  const dispatch = useDispatch();
+  const [user, setUser] = useState({
+    id: 0,
+    name: '',
+    email: '',
+    avatar: '',
+    is_admin: false,
+    is_ambassador: false,
+    mobile: null,
+    updatedAt: '',
+  });
+  const auth = useSelector((state: RootState) => state.auth.value);
+
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -435,6 +454,39 @@ export default function Home() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    // Check if the code is running on the client-side
+    if (typeof window === 'undefined') {
+      return;
+    }
+    (async () => {
+      try {
+        const { data } = await axiosInstance.get('user');
+        // console.log(data);
+
+        if (data) {
+          dispatch(setAuth(true));
+          setUser(data);
+        }
+      } catch (error: any) {
+        // Check if the error is due to missing Authorization header
+        if (
+          error.response?.status !== 500 ||
+          error.response?.data.message !== 'Authorization header not found'
+        ) {
+          toast.error(error.response?.data.message);
+        }
+        dispatch(setAuth(false));
+      }
+    })();
+  }, []);
+
+  const handleLogout = async () => {
+    await axiosInstance.post('logout', {}, { withCredentials: true });
+    delete axiosInstance.defaults.headers.common['Authorization'];
+    dispatch(setAuth(false));
+  };
 
   return (
     <div className="bg-white">
@@ -464,33 +516,30 @@ export default function Home() {
           </div>
           <div className="hidden lg:flex lg:gap-x-12">
             {navigation.map((item) => (
-              <a
+              <Link
+                className="text-lg font-semibold leading-6 text-white"
                 key={item.name}
                 href={item.href}
-                className="text-lg font-semibold leading-6 text-white"
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            {isLoading ? (
-              <p>Loading...</p>
-            ) : error ? (
-              <p>{error.message}</p>
-            ) : user ? (
+            {auth === true ? (
               <>
                 <div className="flex items-center gap-4">
                   <Link
-                    href="/api/auth/logout"
+                    href="/user/login"
+                    onClick={handleLogout}
                     className="text-sm font-semibold leading-6 text-white "
                   >
                     Logout
                   </Link>
 
-                  {user.picture ? (
+                  {auth === true ? (
                     <Image
-                      src={user.picture}
+                      src="https://loremflickr.com/32/32"
                       alt={user?.name || 'none'}
                       width={32}
                       height={32}
@@ -498,7 +547,7 @@ export default function Home() {
                     />
                   ) : (
                     <Image
-                      src="/images/profile-placeholder.png"
+                      src="https://loremflickr.com/32/32"
                       alt="none"
                       width={32}
                       height={32}
@@ -517,10 +566,6 @@ export default function Home() {
                 </Link>
               </div>
             )}
-
-            {/* <a href="#" className="text-sm font-semibold leading-6 text-white">
-              Log in <span aria-hidden="true">&rarr;</span>
-            </a> */}
           </div>
         </nav>
         <Dialog
@@ -533,7 +578,7 @@ export default function Home() {
           <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between">
               <a href="#" className="-m-1.5 p-1.5">
-                <span className="sr-only">Helping Giant</span>
+                <span className="sr-only">CodeJourney.ai</span>
                 <Logo />
               </a>
               <button
@@ -559,23 +604,20 @@ export default function Home() {
                   ))}
                 </div>
                 <div className="py-6">
-                  {isLoading ? (
-                    <p>Loading...</p>
-                  ) : error ? (
-                    <p>{error.message}</p>
-                  ) : user ? (
+                  {auth ? (
                     <>
                       <div className="flex items-center gap-4">
                         <Link
-                          href="/api/auth/logout"
+                          href="/user/login"
+                          onClick={handleLogout}
                           className="text-sm font-semibold leading-6 text-green-800 "
                         >
                           Logout
                         </Link>
 
-                        {user.picture ? (
+                        {user.avatar ? (
                           <Image
-                            src={user.picture}
+                            src="https://loremflickr.com/32/32"
                             alt={user.name}
                             width={32}
                             height={32}
@@ -583,7 +625,7 @@ export default function Home() {
                           />
                         ) : (
                           <Image
-                            src="/images/profile-placeholder.png"
+                            src="https://loremflickr.com/32/32"
                             alt="none"
                             width={32}
                             height={32}

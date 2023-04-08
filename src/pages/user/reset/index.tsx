@@ -1,19 +1,75 @@
-import { useState } from 'react';
+import { useEffect, useState, SyntheticEvent } from 'react';
 import UserPagesLayout from '@/components/AppLayout/AppLayout5';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/20/solid';
+import { toast } from 'react-toastify';
+import axiosInstance from '../../../interceptors/axios';
+import axios from 'axios';
 
 function Reset() {
   const [code, setCode] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showFields, setShowFields] = useState(false);
+  const [notify, setNotify] = useState({
+    show: false,
+    message: '',
+    error: false,
+  });
+  const router = useRouter();
+  const token = router.query.token;
 
-  function handleSubmit(e) {
+  useEffect(() => {
+    if (typeof token === 'string') {
+      setCode(token);
+    }
+  }, [token]);
+
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    // TODO: implement code validation
-    setShowFields(true);
-  }
+
+    if (showFields === false) {
+      // TODO: implement code validation
+      setShowFields(true);
+      return; // Exit the function here to avoid performing the password reset process
+    }
+
+    try {
+      const { data } = await axiosInstance.post('reset', {
+        code,
+        password,
+        confirmPassword,
+      });
+
+      if (data.success) {
+        toast.success(data.message);
+        router.push('/user/login');
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      if (typeof error === 'object' && error !== null && 'message' in error) {
+        toast.error(String(error.message));
+      } else {
+        toast.error('An unknown error occurred');
+      }
+    }
+  };
 
   return (
     <>
+      {/* {notify.show && (
+        <div
+          className={`${
+            notify.error ? 'bg-red-500' : 'bg-green-500'
+          } p-4 text-white rounded-md mb-4`}
+        >
+          {notify.message}
+        </div>
+      )} */}
       <div className="flex min-h-full">
         <div className="flex flex-1 flex-col justify-center  py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           <div className="mx-auto w-full max-w-sm lg:w-96 ">
@@ -70,15 +126,28 @@ function Reset() {
                         >
                           New password
                         </label>
-                        <div className="mt-2">
+                        <div className="mt-2 relative">
                           <input
                             id="new-password"
                             name="new-password"
-                            type="password"
+                            type={showPassword ? 'text' : 'password'}
                             autoComplete="new-password"
                             required
                             className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                           />
+                          <button
+                            type="button"
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-900 focus:outline-none"
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            {showPassword ? (
+                              <EyeIcon className="h-5 w-5" />
+                            ) : (
+                              <EyeSlashIcon className="h-5 w-5" />
+                            )}
+                          </button>
                         </div>
                       </div>
 
@@ -89,15 +158,30 @@ function Reset() {
                         >
                           Confirm new password
                         </label>
-                        <div className="mt-2">
+                        <div className="mt-2 relative">
                           <input
                             id="confirm-password"
                             name="confirm-password"
-                            type="password"
+                            type={showConfirmPassword ? 'text' : 'password'}
                             autoComplete="new-password"
                             required
                             className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
                           />
+                          <button
+                            type="button"
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-900 focus:outline-none"
+                            onClick={() =>
+                              setShowConfirmPassword(!showConfirmPassword)
+                            }
+                          >
+                            {showConfirmPassword ? (
+                              <EyeIcon className="h-5 w-5" />
+                            ) : (
+                              <EyeSlashIcon className="h-5 w-5" />
+                            )}
+                          </button>
                         </div>
                       </div>
                     </>
