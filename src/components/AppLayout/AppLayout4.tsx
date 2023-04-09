@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
   Bars3BottomLeftIcon,
@@ -18,13 +18,17 @@ import {
   PlusIcon,
   Squares2X2Icon as Squares2X2IconMini,
 } from '@heroicons/react/20/solid';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store/store';
+import axiosInstance from '@/interceptors/axios';
 
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: false },
-  { name: 'All Files', href: '#', icon: Squares2X2IconOutline, current: false },
-  { name: 'Photos', href: '#', icon: PhotoIcon, current: true },
-  { name: 'Shared', href: '#', icon: UserGroupIcon, current: false },
-  { name: 'Albums', href: '#', icon: RectangleStackIcon, current: false },
+  { name: 'Course', href: '#', icon: Squares2X2IconOutline, current: false },
+  { name: 'Projects', href: '#', icon: PhotoIcon, current: true },
+  { name: 'Exercises', href: '#', icon: UserGroupIcon, current: false },
+  { name: 'Resources', href: '#', icon: RectangleStackIcon, current: false },
+  { name: 'Community', href: '#', icon: HeartIcon, current: false },
   { name: 'Settings', href: '#', icon: CogIcon, current: false },
 ];
 const userNavigation = [
@@ -80,6 +84,36 @@ function classNames(...classes) {
 
 function Dashboard3({ children }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState({
+    id: 0,
+    name: '',
+    email: '',
+    avatar: '',
+    is_admin: false,
+    is_ambassador: false,
+    mobile: null,
+    updatedAt: '',
+  });
+  const auth = useSelector((state: RootState) => state.auth.value);
+
+  useEffect(() => {
+    // Check if the code is running on the client-side
+    // if (typeof window === 'undefined') {
+    //   return;
+    // }
+    (async () => {
+      try {
+        const { data } = await axiosInstance.get('user');
+
+        if (data) {
+          setUser(data);
+        }
+      } catch (error: any) {
+        // Handle errors appropriately
+        console.error(error.response?.data.message);
+      }
+    })();
+  }, []);
 
   return (
     <>

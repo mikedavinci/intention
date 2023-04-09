@@ -42,7 +42,7 @@ export default function Login() {
         ] = `Bearer ${token}`;
 
         toast.success('Login successful');
-        router.push('/');
+        router.push('/dashboard');
       }
     } catch (error: any) {
       toast.error('Login failed');

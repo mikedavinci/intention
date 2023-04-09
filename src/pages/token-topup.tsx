@@ -1,5 +1,3 @@
-import { withPageAuthRequired } from '@auth0/nextjs-auth0';
-import Dashboard from '@/components/AppLayout/AppLayout2';
 import Dashboard3 from '@/components/AppLayout/AppLayout4';
 
 export default function TokenTopup() {
@@ -23,9 +21,3 @@ export default function TokenTopup() {
 TokenTopup.getLayout = function getLayout(page: any, pageProps: any) {
   return <Dashboard3 {...pageProps}>{page}</Dashboard3>;
 };
-
-export const getServerSideProps = withPageAuthRequired(() => {
-  return {
-    props: {},
-  };
-});

@@ -16,9 +16,13 @@ import {
 } from '@heroicons/react/24/outline';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import Dashboard2 from '@/components/AppLayout/AppLayout3';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import Dashboard3 from '@/components/AppLayout/AppLayout4';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store/store';
+import axiosInstance from '../../interceptors/axios';
 
 const orders = [
   {
@@ -110,7 +114,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Home(props: any) {
+export default function IndexDashboard(props: any) {
   const [selected, setSelected] = useState(settings[0]);
   const [topic, setTopic] = useState('');
   const [keywords, setKeywords] = useState(['']);
@@ -359,12 +363,6 @@ export default function Home(props: any) {
   );
 }
 
-Home.getLayout = function getLayout(page: any, pageProps: any) {
-  return <Dashboard2 {...pageProps}>{page}</Dashboard2>;
+IndexDashboard.getLayout = function getLayout(page: any, pageProps: any) {
+  return <Dashboard3 {...pageProps}>{page}</Dashboard3>;
 };
-
-export const getServerSideProps = withPageAuthRequired(() => {
-  return {
-    props: {},
-  };
-});
