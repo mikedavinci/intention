@@ -15,10 +15,7 @@ export default function Login() {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = async (event: {
-    preventDefault: () => void;
-    target: { email: { value: any }; password: { value: any } };
-  }) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
 
     try {

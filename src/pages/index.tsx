@@ -483,9 +483,18 @@ export default function Home() {
   }, []);
 
   const handleLogout = async () => {
-    await axiosInstance.post('logout', {}, { withCredentials: true });
-    delete axiosInstance.defaults.headers.common['Authorization'];
-    dispatch(setAuth(false));
+    try {
+      const response = await axiosInstance.post(
+        'logout',
+        {},
+        { withCredentials: true }
+      );
+      delete axiosInstance.defaults.headers.common['Authorization'];
+      dispatch(setAuth(false));
+      toast.success(response.data.message);
+    } catch (error: any) {
+      toast.error('Error logging out');
+    }
   };
 
   return (

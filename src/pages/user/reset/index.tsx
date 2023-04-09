@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/20/solid';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../../interceptors/axios';
-import axios from 'axios';
+import Image from 'next/image';
 
 function Reset() {
   const [code, setCode] = useState('');
@@ -201,9 +201,11 @@ function Reset() {
           </div>
         </div>
         <div className="relative hidden w-0 flex-1 lg:block">
-          <img
+          <Image
             className="absolute inset-0 h-full w-full object-cover"
-            src="https://images.unsplash.com/photo-1505904267569-f02eaeb45a4c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
+            src="https://res.cloudinary.com/dtgmhmxlx/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1681004894/intention/deepmind-kUmcSBJcFPg-unsplash_o96olc.jpg"
+            width={1000}
+            height={1000}
             alt=""
           />
         </div>
