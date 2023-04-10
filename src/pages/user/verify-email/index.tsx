@@ -13,9 +13,12 @@ function VerifyEmail() {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const { data } = await axiosInstance.post('verify-email', {
-          token,
-        });
+        const { data } = await axiosInstance.post(
+          `verify-email?token=${token}`,
+          {
+            token,
+          }
+        );
 
         if (data.success) {
           toast.success('Email verified. Redirecting to login page...');
