@@ -1,5 +1,5 @@
 import UserPagesLayout from '@/components/AppLayout/AppLayout5';
-import axios from 'axios';
+import axiosInstance from '../../interceptors/axios';
 import Link from 'next/link';
 import router from 'next/router';
 import { SyntheticEvent, useEffect, useState } from 'react';
@@ -32,13 +32,13 @@ function Register() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`register`, {
+      const response = await axiosInstance.post(`register`, {
         email,
         password,
         password_confirmation,
       });
       if (response.status === 201) {
-        toast.success('Registration successful');
+        toast.success('Please check your email inbox for a verification link.');
         setRedirect(true);
         router.push('/user/login');
       }
