@@ -39,7 +39,7 @@ function Reset() {
 
     try {
       const { data } = await axiosInstance.post('reset', {
-        code,
+        resetToken: code,
         password,
         confirmPassword,
       });
@@ -48,7 +48,12 @@ function Reset() {
         toast.success(data.message);
         router.push('/user/login');
       } else {
-        toast.error(data.message);
+        if (data.expired) {
+          // Add this condition
+          router.push('/user/forgot-password');
+        } else {
+          toast.error(data.message);
+        }
       }
     } catch (error) {
       if (typeof error === 'object' && error !== null && 'message' in error) {
