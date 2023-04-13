@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import UserPagesLayout from '@/components/AppLayout/AppLayout5';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
@@ -11,12 +11,20 @@ function VerifyEmail() {
   const [email, setEmail] = useState('');
 
   useEffect(() => {
-    const verifyEmail = async () => {
+    const setEmailAndVerify = async () => {
+      if (typeof token === 'string' && typeof router.query.email === 'string') {
+        setEmail(router.query.email);
+        await verifyEmail(token, router.query.email);
+      }
+    };
+
+    const verifyEmail = async (token: any, email: any) => {
       try {
         const { data } = await axiosInstance.post(
-          `verify-email?token=${token}`,
+          `verify-email?token=${token}&email=${email}`,
           {
             token,
+            email,
           }
         );
 
@@ -27,12 +35,16 @@ function VerifyEmail() {
           }, 1000);
         } else {
           toast.error(data.message);
-          setEmail(data.email);
           setError(true);
         }
-      } catch (error) {
-        if (typeof error === 'object' && error !== null && 'message' in error) {
-          toast.error(String(error.message));
+      } catch (error: any) {
+        if (
+          typeof error === 'object' &&
+          error !== null &&
+          'response' in error &&
+          'data' in error.response
+        ) {
+          toast.error(String(error.response.data.message));
         } else {
           toast.error('An unknown error occurred');
         }
@@ -40,14 +52,14 @@ function VerifyEmail() {
       }
     };
 
-    if (typeof token === 'string') {
-      verifyEmail();
-    }
+    setEmailAndVerify();
   }, [token, router]);
 
-  const resendVerificationEmail = async () => {
+  const resendVerificationEmail = useCallback(async () => {
+    console.log('Resending verification email to:', email);
+
     try {
-      const { data } = await axiosInstance.post('resend-verification', {
+      const { data } = await axiosInstance.post(`resend-verification`, {
         email,
       });
       if (data.success) {
@@ -55,14 +67,19 @@ function VerifyEmail() {
       } else {
         toast.error(data.message);
       }
-    } catch (error) {
-      if (typeof error === 'object' && error !== null && 'message' in error) {
-        toast.error(String(error.message));
+    } catch (error: any) {
+      if (
+        typeof error === 'object' &&
+        error !== null &&
+        'response' in error &&
+        'data' in error.response
+      ) {
+        toast.error(String(error.response.data.message));
       } else {
         toast.error('An unknown error occurred');
       }
     }
-  };
+  }, [email]);
 
   return (
     <>
