@@ -59,13 +59,16 @@ function VerifyEmail() {
     console.log('Resending verification email to:', email);
 
     try {
-      const { data } = await axiosInstance.post(`resend-verification`, {
+      const response = await axiosInstance.post(`resend-verification`, {
         email,
       });
-      if (data.success) {
-        toast.success(data.message);
+      if (response.data.redirectTo) {
+        toast.success(response.data.message);
+        router.push(response.data.redirectTo);
+      } else if (response.data.success) {
+        toast.success(response.data.message);
       } else {
-        toast.error(data.message);
+        toast.error(response.data.message);
       }
     } catch (error: any) {
       if (
@@ -79,11 +82,11 @@ function VerifyEmail() {
         toast.error('An unknown error occurred');
       }
     }
-  }, [email]);
+  }, [email, router]);
 
   return (
     <>
-      <div className="flex min-h-full justify-center items-center">
+      <div className="flex min-h-full justify-center items-center lg:py-96 md:py-20 ">
         {error ? (
           <>
             <h2 className="text-xl font-bold text-red-600">
