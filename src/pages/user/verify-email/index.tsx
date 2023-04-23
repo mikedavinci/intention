@@ -21,11 +21,7 @@ function VerifyEmail() {
     const verifyEmail = async (token: any, email: any) => {
       try {
         const { data } = await axiosInstance.post(
-          `verify-email?token=${token}&email=${email}`,
-          {
-            token,
-            email,
-          }
+          `verify-email?token=${token}&email=${email}`
         );
 
         if (data.success) {

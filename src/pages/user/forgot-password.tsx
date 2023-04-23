@@ -17,9 +17,9 @@ function Forgot() {
       } else {
         toast.error(data.message);
       }
-    } catch (error) {
-      if (typeof error === 'object' && error !== null && 'message' in error) {
-        toast.error(String(error.message));
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        toast.error(String(error.response.data.message));
       } else {
         toast.error('An unknown error occurred');
       }
