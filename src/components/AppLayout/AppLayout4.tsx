@@ -34,6 +34,7 @@ const navigation = [
   { name: 'Community', href: '#', icon: HeartIcon, current: false },
   { name: 'Settings', href: '#', icon: CogIcon, current: false },
 ];
+
 const userNavigation = [
   { name: 'Your profile', href: '#' },
   { name: 'Sign out', href: '#' },
@@ -72,6 +73,7 @@ function classNames(...classes) {
 }
 
 function Dashboard3({ children }) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
@@ -109,7 +111,10 @@ function Dashboard3({ children }) {
         ```
       */}
       <div className="flex h-full">
-        <MenuDash />
+        <MenuDash
+          mobileMenuOpen={mobileMenuOpen}
+          setMobileMenuOpen={setMobileMenuOpen}
+        />
 
         {/* Content area */}
         <div className="flex flex-1 flex-col overflow-hidden">

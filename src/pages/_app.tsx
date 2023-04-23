@@ -22,21 +22,23 @@ const dmSerifDisplay = DM_Serif_Display({
 function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page: any) => page);
   return (
-    <Provider store={store}>
-      <main
-        className={`${dmSans.variable} ${dmSerifDisplay.variable} font-body`}
-      >
-        <ToastContainer
-          position="top-center"
-          autoClose={1200}
-          hideProgressBar={true}
-          newestOnTop={true}
-          closeOnClick
-          theme="dark"
-        />
-        {getLayout(<Component {...pageProps} />, pageProps)}
-      </main>
-    </Provider>
+    <>
+      <Provider store={store}>
+        <main
+          className={`${dmSans.variable} ${dmSerifDisplay.variable} font-body`}
+        >
+          <ToastContainer
+            position="top-center"
+            autoClose={1200}
+            hideProgressBar={true}
+            newestOnTop={true}
+            closeOnClick
+            theme="dark"
+          />
+          {getLayout(<Component {...pageProps} />, pageProps)}
+        </main>
+      </Provider>
+    </>
   );
 }
 

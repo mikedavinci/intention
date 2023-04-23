@@ -11,36 +11,46 @@ import {
   UserGroupIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
-import {
-  Bars4Icon,
-  MagnifyingGlassIcon,
-  PencilIcon,
-  PlusIcon,
-  Squares2X2Icon as Squares2X2IconMini,
-} from '@heroicons/react/20/solid';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/store';
-import axiosInstance from '@/interceptors/axios';
-import { loginSuccess } from '@/redux/authSlice';
-import FooterDash from '../Footers/FooterDash';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const navigation = [
-  { name: 'Home', href: '#', icon: HomeIcon, current: false },
-  { name: 'Course', href: '#', icon: Squares2X2IconOutline, current: false },
-  { name: 'Projects', href: '#', icon: PhotoIcon, current: true },
-  { name: 'Exercises', href: '#', icon: UserGroupIcon, current: false },
-  { name: 'Resources', href: '#', icon: RectangleStackIcon, current: false },
-  { name: 'Community', href: '#', icon: HeartIcon, current: false },
-  { name: 'Settings', href: '#', icon: CogIcon, current: false },
+  { name: 'Home', href: '/dashboard', icon: HomeIcon, current: false },
+  {
+    name: 'Courses',
+    href: '/courses',
+    icon: Squares2X2IconOutline,
+    current: false,
+  },
+  { name: 'Projects', href: '/projects', icon: PhotoIcon, current: true },
+  {
+    name: 'Exercises',
+    href: '/exercises',
+    icon: UserGroupIcon,
+    current: false,
+  },
+  {
+    name: 'Resources',
+    href: '/resources',
+    icon: RectangleStackIcon,
+    current: false,
+  },
+  { name: 'Community', href: '/community', icon: HeartIcon, current: false },
+  { name: 'Settings', href: '/settings', icon: CogIcon, current: false },
 ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-function MenuDash() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+function MenuDash({ mobileMenuOpen, setMobileMenuOpen }) {
+  const router = useRouter();
+  const updatedNavigation = navigation.map((item) => {
+    return {
+      ...item,
+      current: item.href === router.pathname,
+    };
+  });
   return (
     <>
       {/* Narrow sidebar */}
@@ -54,8 +64,8 @@ function MenuDash() {
             />
           </div>
           <div className="mt-6 w-full flex-1 space-y-1 px-2">
-            {navigation.map((item) => (
-              <a
+            {updatedNavigation.map((item) => (
+              <Link
                 key={item.name}
                 href={item.href}
                 className={classNames(
@@ -76,7 +86,7 @@ function MenuDash() {
                   aria-hidden="true"
                 />
                 <span className="mt-2">{item.name}</span>
-              </a>
+              </Link>
             ))}
           </div>
         </div>
@@ -145,8 +155,8 @@ function MenuDash() {
                 <div className="mt-5 h-0 flex-1 overflow-y-auto px-2">
                   <nav className="flex h-full flex-col">
                     <div className="space-y-1">
-                      {navigation.map((item) => (
-                        <a
+                      {updatedNavigation.map((item) => (
+                        <Link
                           key={item.name}
                           href={item.href}
                           className={classNames(
@@ -167,7 +177,7 @@ function MenuDash() {
                             aria-hidden="true"
                           />
                           <span>{item.name}</span>
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   </nav>

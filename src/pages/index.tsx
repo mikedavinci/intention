@@ -28,12 +28,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Logo from '@/components/Logo/Logo';
 import axiosInstance from '@/interceptors/axios';
-import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuth } from '@/redux/authSlice';
 import { RootState } from '@/redux/store/store';
-import { useRouter } from 'next/router';
-import axios from 'axios';
+import { setAuth, setUser } from '@/redux/authSlice'; // Import the necessary actions
+import { toast } from 'react-toastify';
 
 const posts = [
   {
@@ -421,20 +419,11 @@ function classNames(...classes) {
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
+  const user = useSelector((state: RootState) => state.auth.user);
   const dispatch = useDispatch();
-  const [user, setUser] = useState({
-    id: 0,
-    name: '',
-    email: '',
-    avatar: '',
-    is_admin: false,
-    is_ambassador: false,
-    mobile: null,
-    updatedAt: '',
-  });
-  const auth = useSelector((state: RootState) => state.auth.value);
-
-  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -467,7 +456,7 @@ export default function Home() {
 
         if (data) {
           dispatch(setAuth(true));
-          setUser(data);
+          dispatch(setUser(data));
         }
       } catch (error: any) {
         // Check if the error is due to missing Authorization header
@@ -480,7 +469,7 @@ export default function Home() {
         dispatch(setAuth(false));
       }
     })();
-  }, []);
+  }, [dispatch]);
 
   const handleLogout = async () => {
     try {
@@ -535,7 +524,7 @@ export default function Home() {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            {auth === true ? (
+            {isAuthenticated === true ? (
               <>
                 <div className="flex items-center gap-4">
                   <Link
@@ -546,7 +535,7 @@ export default function Home() {
                     Logout
                   </Link>
 
-                  {auth === true ? (
+                  {isAuthenticated === true ? (
                     <Image
                       src="https://loremflickr.com/32/32"
                       alt={user?.name || 'none'}
@@ -613,7 +602,7 @@ export default function Home() {
                   ))}
                 </div>
                 <div className="py-6">
-                  {auth ? (
+                  {isAuthenticated ? (
                     <>
                       <div className="flex items-center gap-4">
                         <Link
