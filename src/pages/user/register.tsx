@@ -42,8 +42,8 @@ function Register() {
         setRedirect(true);
         router.push('/user/login');
       }
-    } catch (error) {
-      toast.error('Registration failed');
+    } catch (error: any) {
+      toast.error(error.response.data.message || error.response.statusText);
     }
   };
 

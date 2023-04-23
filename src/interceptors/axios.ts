@@ -37,15 +37,6 @@ instance.interceptors.response.use(
       }
     }
 
-    // if (error.response.status === 403) {
-    //   return Promise.reject(error);
-    // }
-    // if (error.response.status === 404) {
-    //   return Promise.reject(error);
-    // }
-    // if (error.response.status === 500) {
-    //   return Promise.reject(error);
-    // }
     return Promise.reject(error);
   }
 );

@@ -10,6 +10,7 @@ import { MoonLoader } from 'react-spinners';
 
 function Reset() {
   const [code, setCode] = useState('');
+  const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -22,11 +23,13 @@ function Reset() {
 
   const validateToken = useCallback(
     async (token: string) => {
+      setLoading(true);
       try {
         const { data } = await axiosInstance.post('validate-token', {
           token,
         });
-        if (data.success) {
+        setIsTokenValid(data.isValid); // Update this line
+        if (data.isValid) {
           setCode(token);
           setShowFields(true);
         } else {
@@ -39,6 +42,8 @@ function Reset() {
         } else {
           toast.error('An unknown error occurred');
         }
+      } finally {
+        setLoading(false);
       }
     },
     [router]
@@ -89,10 +94,13 @@ function Reset() {
 
   return (
     <>
-      {isTokenValid === null ? (
+      {loading ? (
         <div className="flex justify-center items-center min-h-screen">
           <MoonLoader size={50} color="#123abc" />
         </div>
+      ) : isTokenValid === null ? (
+        // Show nothing while waiting for validation to finish
+        <></>
       ) : isTokenValid ? (
         <div className="flex min-h-full">
           <div className="flex flex-1 flex-col justify-center  py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
@@ -240,8 +248,8 @@ function Reset() {
         <div className="flex justify-center items-center min-h-screen">
           <p className="text-2xl">
             Your reset token has expired or is invalid. Please{' '}
-            <Link href="/user/forgot-password">
-              <a className="text-indigo-600">request a new one</a>
+            <Link href="/user/forgot-password" className="text-indigo-600">
+              request a new one
             </Link>
             .
           </p>

@@ -43,9 +43,28 @@ export default function Login() {
 
         toast.success('Login successful');
         router.push('/dashboard');
+      } else {
+        // Handle non-200 status codes
+        toast.error(`Error: ${res.status} ${res.statusText}`);
       }
     } catch (error: any) {
-      toast.error('Login failed');
+      console.log('Error:', error);
+      if (error.response) {
+        console.log('Response:', error.response);
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        toast.error(
+          error.response.data.message.message || error.response.statusText
+        );
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.log('Request:', error.request);
+        toast.error('Error: No response from the server.');
+      } else {
+        // Something happened in setting up the request that triggered an error
+        console.log('Error setting up the request:', error.message);
+        toast.error('Error: Request setup failed.');
+      }
     }
   };
 
