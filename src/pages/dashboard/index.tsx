@@ -157,6 +157,106 @@ const currentFile = {
   ],
 };
 
+const posts = [
+  {
+    id: 1,
+    title: 'Boost your conversion rate',
+    href: '#',
+    description:
+      'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3603&q=80',
+    date: 'Mar 16, 2020',
+    datetime: '2020-03-16',
+    author: {
+      name: 'Michael Foster',
+      imageUrl:
+        'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    },
+  },
+  {
+    id: 1,
+    title: 'Boost your conversion rate',
+    href: '#',
+    description:
+      'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3603&q=80',
+    date: 'Mar 16, 2020',
+    datetime: '2020-03-16',
+    author: {
+      name: 'Michael Foster',
+      imageUrl:
+        'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    },
+  },
+  {
+    id: 1,
+    title: 'Boost your conversion rate',
+    href: '#',
+    description:
+      'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3603&q=80',
+    date: 'Mar 16, 2020',
+    datetime: '2020-03-16',
+    author: {
+      name: 'Michael Foster',
+      imageUrl:
+        'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    },
+  },
+  {
+    id: 1,
+    title: 'Boost your conversion rate',
+    href: '#',
+    description:
+      'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3603&q=80',
+    date: 'Mar 16, 2020',
+    datetime: '2020-03-16',
+    author: {
+      name: 'Michael Foster',
+      imageUrl:
+        'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    },
+  },
+  {
+    id: 1,
+    title: 'Boost your conversion rate',
+    href: '#',
+    description:
+      'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3603&q=80',
+    date: 'Mar 16, 2020',
+    datetime: '2020-03-16',
+    author: {
+      name: 'Michael Foster',
+      imageUrl:
+        'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    },
+  },
+  {
+    id: 1,
+    title: 'Boost your conversion rate',
+    href: '#',
+    description:
+      'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3603&q=80',
+    date: 'Mar 16, 2020',
+    datetime: '2020-03-16',
+    author: {
+      name: 'Michael Foster',
+      imageUrl:
+        'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    },
+  },
+  // More posts...
+];
+
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
@@ -169,138 +269,92 @@ export default function IndexDashboard(props: any) {
   return (
     <>
       <Head>
-        <title>Dashboard - Helping Giant</title>
-        <meta name="description" content="Dashboard - Helping Giant" />
+        <title>Dashboard - CodeJourney.ai</title>
+        <meta name="description" content="Dashboard - CodeJourney.ai" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
+        <style>{`
+          .darker-shadow {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.7), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+        `}</style>
       </Head>
-      <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
-        <div className="flex">
-          <h1 className="flex-1 text-2xl font-bold text-gray-900">Photos</h1>
-          <div className="ml-6 flex items-center rounded-lg bg-gray-100 p-0.5 sm:hidden">
-            <button
-              type="button"
-              className="rounded-md p-1.5 text-gray-400 hover:bg-white hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-            >
-              <Bars4Icon className="h-5 w-5" aria-hidden="true" />
-              <span className="sr-only">Use list view</span>
-            </button>
-            <button
-              type="button"
-              className="ml-0.5 rounded-md bg-white p-1.5 text-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-            >
-              <Squares2X2IconMini className="h-5 w-5" aria-hidden="true" />
-              <span className="sr-only">Use grid view</span>
-            </button>
+      <div className="bg-gray-100 py-14 sm:py-12">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              Select A Course
+            </h2>
+            <p className="mt-2 text-lg leading-8 text-gray-600">
+              Begin your journey to becoming a software engineer
+            </p>
           </div>
-        </div>
 
-        {/* Tabs */}
-        <div className="mt-3 sm:mt-2">
-          <div className="sm:hidden">
-            <label htmlFor="tabs" className="sr-only">
-              Select a tab
-            </label>
-            {/* Use an "onChange" listener to redirect the user to the selected tab URL. */}
-            <select
-              id="tabs"
-              name="tabs"
-              className="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
-              defaultValue="Recently Viewed"
-            >
-              <option>Recently Viewed</option>
-              <option>Recently Added</option>
-              <option>Favorited</option>
-            </select>
-          </div>
-          <div className="hidden sm:block">
-            <div className="flex items-center border-b border-gray-200">
-              <nav
-                className="-mb-px flex flex-1 space-x-6 xl:space-x-8"
-                aria-label="Tabs"
+          <div className="mx-auto mt-16 grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+            {posts.map((post) => (
+              <article
+                key={post.id}
+                className="group relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80 hover:darker-shadow transition-shadow duration-300"
               >
-                {tabs.map((tab) => (
+                <img
+                  src={post.imageUrl}
+                  alt=""
+                  className="absolute inset-0 -z-10 h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40" />
+                <div className="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
+
+                {/* Overlay with 'View' button */}
+                <div className="absolute inset-0 flex items-center justify-center -z-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50">
                   <Link
-                    key={tab.name}
-                    href={tab.href}
-                    aria-current={tab.current ? 'page' : undefined}
-                    className={classNames(
-                      tab.current
-                        ? 'border-indigo-500 text-indigo-600'
-                        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                      'whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium'
-                    )}
+                    href={post.href}
+                    className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded"
                   >
-                    {tab.name}
+                    View
                   </Link>
-                ))}
-              </nav>
-              <div className="ml-6 hidden items-center rounded-lg bg-gray-100 p-0.5 sm:flex">
-                <button
-                  type="button"
-                  className="rounded-md p-1.5 text-gray-400 hover:bg-white hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                >
-                  <Bars4Icon className="h-5 w-5" aria-hidden="true" />
-                  <span className="sr-only">Use list view</span>
-                </button>
-                <button
-                  type="button"
-                  className="ml-0.5 rounded-md bg-white p-1.5 text-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                >
-                  <Squares2X2IconMini className="h-5 w-5" aria-hidden="true" />
-                  <span className="sr-only">Use grid view</span>
-                </button>
-              </div>
-            </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
+                  <time dateTime={post.datetime} className="mr-8">
+                    {post.date}
+                  </time>
+                  <div className="-ml-4 flex items-center gap-x-4">
+                    <svg
+                      viewBox="0 0 2 2"
+                      className="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50"
+                    >
+                      <circle cx={1} cy={1} r={1} />
+                    </svg>
+                    <div className="flex gap-x-2.5">
+                      <img
+                        src={post.author.imageUrl}
+                        alt=""
+                        className="h-6 w-6 flex-none rounded-full bg-white/10"
+                      />
+                      {post.author.name}
+                    </div>
+                  </div>
+                </div>
+                <h3 className="mt-3 text-lg font-semibold leading-6 text-white">
+                  <a href={post.href}>
+                    <span className="absolute inset-0" />
+                    {post.title}
+                  </a>
+                </h3>
+                <div>
+                  <div className="my-6" aria-hidden="true">
+                    <div className="overflow-hidden rounded-full bg-gray-200">
+                      <div
+                        className="h-2 rounded-full bg-indigo-600"
+                        style={{ width: '37.5%' }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
-
-        {/* Gallery */}
-        <section className="mt-8 pb-16" aria-labelledby="gallery-heading">
-          <h2 id="gallery-heading" className="sr-only">
-            Recently viewed
-          </h2>
-          <ul
-            role="list"
-            className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
-          >
-            {files.map((file) => (
-              <li key={file.name} className="relative">
-                <div
-                  className={classNames(
-                    file.current
-                      ? 'ring-2 ring-indigo-500 ring-offset-2'
-                      : 'focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100',
-                    'aspect-w-10 aspect-h-7 group block w-full overflow-hidden rounded-lg bg-gray-100'
-                  )}
-                >
-                  <img
-                    src={file.source}
-                    alt=""
-                    className={classNames(
-                      file.current ? '' : 'group-hover:opacity-75',
-                      'pointer-events-none object-cover'
-                    )}
-                  />
-                  <button
-                    type="button"
-                    className="absolute inset-0 focus:outline-none"
-                  >
-                    <span className="sr-only">
-                      View details for {file.name}
-                    </span>
-                  </button>
-                </div>
-                <p className="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">
-                  {file.name}
-                </p>
-                <p className="pointer-events-none block text-sm font-medium text-gray-500">
-                  {file.size}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </section>
       </div>
     </>
   );

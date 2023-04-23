@@ -222,7 +222,7 @@ function Dashboard3({ children }) {
           </div>
         </div>
         {/* Details sidebar */}
-        <aside className="hidden w-96 overflow-y-auto border-l border-gray-200 bg-white p-8 lg:block">
+        {/* <aside className="hidden w-96 overflow-y-auto border-l border-gray-200 bg-white p-8 lg:block">
           <div className="space-y-6 pb-16">
             <div>
               <div className="aspect-w-10 aspect-h-7 block w-full overflow-hidden rounded-lg">
@@ -337,7 +337,7 @@ function Dashboard3({ children }) {
               </button>
             </div>
           </div>
-        </aside>
+        </aside> */}
       </div>
       <FooterDash />
     </>
