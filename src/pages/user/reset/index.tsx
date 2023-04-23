@@ -28,9 +28,9 @@ function Reset() {
         const { data } = await axiosInstance.post('validate-token', {
           token,
         });
-        setIsTokenValid(data.isValid); // Update this line
         if (data.isValid) {
           setCode(token);
+          setIsTokenValid(data.isValid); // Update this line
           setShowFields(true);
         } else {
           toast.error('Your reset token has expired. Please request a new one');
@@ -60,14 +60,34 @@ function Reset() {
     e.preventDefault();
 
     if (showFields === false) {
-      // TODO: implement code validation
-      setShowFields(true);
-      return; // Exit the function here to avoid performing the password reset process
+      try {
+        const { data } = await axiosInstance.post('validate-token', {
+          token: code,
+        });
+        if (!data.isValid) {
+          toast.error('The verification code is incorrect. Please try again.');
+          return;
+        }
+        setShowFields(true);
+      } catch (error: any) {
+        if (error.response && error.response.data) {
+          toast.error(String(error.response.data.message));
+        } else if (
+          typeof error === 'object' &&
+          error !== null &&
+          'message' in error
+        ) {
+          toast.error(String(error.message));
+        } else {
+          toast.error('An unknown error occurred');
+        }
+      }
+      return;
     }
 
     try {
       const { data } = await axiosInstance.post('reset', {
-        resetToken: code,
+        token: code,
         password,
         confirmPassword,
       });
@@ -83,8 +103,14 @@ function Reset() {
           toast.error(data.message);
         }
       }
-    } catch (error) {
-      if (typeof error === 'object' && error !== null && 'message' in error) {
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        toast.error(String(error.response.data.message));
+      } else if (
+        typeof error === 'object' &&
+        error !== null &&
+        'message' in error
+      ) {
         toast.error(String(error.message));
       } else {
         toast.error('An unknown error occurred');

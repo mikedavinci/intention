@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import '../interceptors/axios';
 import store from '../redux/store/store';
 import { Provider } from 'react-redux';
+import withLoading from '../components/withLoading';
 
 const dmSans = DM_Sans({
   weight: ['400', '500', '700'],
@@ -28,7 +29,7 @@ function App({ Component, pageProps }: AppProps) {
           className={`${dmSans.variable} ${dmSerifDisplay.variable} font-body`}
         >
           <ToastContainer
-            position="top-center"
+            position="top-right"
             autoClose={1200}
             hideProgressBar={true}
             newestOnTop={true}
@@ -42,4 +43,4 @@ function App({ Component, pageProps }: AppProps) {
   );
 }
 
-export default App;
+export default withLoading(App);

@@ -24,6 +24,7 @@ import axiosInstance from '@/interceptors/axios';
 import { loginSuccess } from '@/redux/authSlice';
 import FooterDash from '../Footers/FooterDash';
 import MenuDash from '../Menus/MenuDash';
+import Link from 'next/link';
 
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: false },
@@ -187,7 +188,7 @@ function Dashboard3({ children }) {
                         {userNavigation.map((item) => (
                           <Menu.Item key={item.name}>
                             {({ active }) => (
-                              <a
+                              <Link
                                 href={item.href}
                                 className={classNames(
                                   active ? 'bg-gray-100' : '',
@@ -195,7 +196,7 @@ function Dashboard3({ children }) {
                                 )}
                               >
                                 {item.name}
-                              </a>
+                              </Link>
                             )}
                           </Menu.Item>
                         ))}

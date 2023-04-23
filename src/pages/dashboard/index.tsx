@@ -220,7 +220,7 @@ export default function IndexDashboard(props: any) {
                 aria-label="Tabs"
               >
                 {tabs.map((tab) => (
-                  <a
+                  <Link
                     key={tab.name}
                     href={tab.href}
                     aria-current={tab.current ? 'page' : undefined}
@@ -232,7 +232,7 @@ export default function IndexDashboard(props: any) {
                     )}
                   >
                     {tab.name}
-                  </a>
+                  </Link>
                 ))}
               </nav>
               <div className="ml-6 hidden items-center rounded-lg bg-gray-100 p-0.5 sm:flex">

@@ -180,10 +180,10 @@ export const Dashboard = ({ children }) => {
                 <div className="relative flex flex-wrap items-center justify-center lg:justify-between">
                   {/* Logo */}
                   <div className="absolute left-0 flex-shrink-0 py-5 lg:static">
-                    <a href="#">
+                    <Link href="#">
                       <span className="sr-only">Helping Giant</span>
                       <Logo />
-                    </a>
+                    </Link>
                   </div>
 
                   {/* Right section on desktop */}

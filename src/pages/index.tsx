@@ -30,8 +30,9 @@ import Logo from '@/components/Logo/Logo';
 import axiosInstance from '@/interceptors/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/store';
-import { setAuth, setUser } from '@/redux/authSlice'; // Import the necessary actions
+import { loginSuccess, logout } from '@/redux/authSlice'; // Import the necessary actions
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 const posts = [
   {
@@ -423,6 +424,7 @@ export default function Home() {
     (state: RootState) => state.auth.isAuthenticated
   );
   const user = useSelector((state: RootState) => state.auth.user);
+  console.log(user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -455,18 +457,22 @@ export default function Home() {
         // console.log(data);
 
         if (data) {
-          dispatch(setAuth(true));
-          dispatch(setUser(data));
+          dispatch(
+            loginSuccess({
+              user: data,
+              token: Cookies.get('access_token'),
+            })
+          );
         }
       } catch (error: any) {
         // Check if the error is due to missing Authorization header
         if (
-          error.response?.status !== 500 ||
+          error.response?.status !== 500 &&
           error.response?.data.message !== 'Authorization header not found'
         ) {
           toast.error(error.response?.data.message);
         }
-        dispatch(setAuth(false));
+        dispatch(logout());
       }
     })();
   }, [dispatch]);
@@ -478,9 +484,13 @@ export default function Home() {
         {},
         { withCredentials: true }
       );
-      delete axiosInstance.defaults.headers.common['Authorization'];
-      dispatch(setAuth(false));
-      toast.success(response.data.message);
+      if (response.status === 200) {
+        delete axiosInstance.defaults.headers.common['Authorization'];
+        dispatch(logout());
+        toast.success(response.data.message);
+      } else {
+        toast.error(`Error: ${response.status} ${response.statusText}`);
+      }
     } catch (error: any) {
       toast.error('Error logging out');
     }
@@ -495,12 +505,12 @@ export default function Home() {
           aria-label="Global"
         >
           <div className="flex lg:flex-1">
-            <a href="#" className="-m-1.5 p-1.5">
+            <Link href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">
                 CodeJourney.AI- Your Ultimate AI Academy!
               </span>
               <Logo />
-            </a>
+            </Link>
           </div>
           <div className="flex lg:hidden">
             <button
@@ -575,10 +585,10 @@ export default function Home() {
           <div className="fixed inset-0 z-50" />
           <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between">
-              <a href="#" className="-m-1.5 p-1.5">
+              <Link href="#" className="-m-1.5 p-1.5">
                 <span className="sr-only">CodeJourney.ai</span>
                 <Logo />
-              </a>
+              </Link>
               <button
                 type="button"
                 className="-m-2.5 rounded-md p-2.5 text-gray-700"
@@ -592,13 +602,13 @@ export default function Home() {
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
                   {navigation.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
                       href={item.href}
                       className="-mx-3 block rounded-lg py-2 px-3 text-xl font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
                 <div className="py-6">
@@ -613,10 +623,10 @@ export default function Home() {
                           Logout
                         </Link>
 
-                        {user.avatar ? (
+                        {user?.avatar ? (
                           <Image
                             src="https://loremflickr.com/32/32"
-                            alt={user.name}
+                            alt={user?.name}
                             width={32}
                             height={32}
                             className="rounded-full"
@@ -704,7 +714,7 @@ export default function Home() {
                 height={500}
               /> */}
               {/* <div className="mt-24 sm:mt-32 lg:mt-16">
-                <a href="#" className="inline-flex space-x-6">
+                <Link href="#" className="inline-flex space-x-6">
                   <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
                     What's new
                   </span>
@@ -715,7 +725,7 @@ export default function Home() {
                       aria-hidden="true"
                     />
                   </span>
-                </a>
+                </Link>
               </div> */}
               <h1 className="mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl">
                 Unlock Your Potential with CodeJourney.ai
@@ -811,12 +821,12 @@ export default function Home() {
                 community of AI enthusiasts.
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
-                <a
+                <Link
                   href="#"
                   className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-xl font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
                 >
                   Get started
-                </a>
+                </Link>
                 <Link
                   href="/user/login"
                   className="text-xl font-semibold leading-6 text-white"
@@ -895,10 +905,10 @@ export default function Home() {
                     </div>
                   </div> */}
                   <h3 className="mt-3 text-xl font-semibold leading-6 text-white">
-                    <a href={post.href}>
+                    <Link href={post.href}>
                       <span className="absolute inset-0" />
                       {post.title}
-                    </a>
+                    </Link>
                   </h3>
                 </article>
               ))}
@@ -1139,7 +1149,7 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-                <a
+                <Link
                   href={tier.href}
                   aria-describedby={tier.id}
                   className={classNames(
@@ -1150,7 +1160,7 @@ export default function Home() {
                   )}
                 >
                   Get started today
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -1263,12 +1273,12 @@ export default function Home() {
                     <ul role="list" className="mt-6 space-y-4">
                       {footerNavigation.solutions.map((item) => (
                         <li key={item.name}>
-                          <a
+                          <Link
                             href={item.href}
                             className="text-sm leading-6 text-gray-300 hover:text-white"
                           >
                             {item.name}
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>
@@ -1280,12 +1290,12 @@ export default function Home() {
                     <ul role="list" className="mt-6 space-y-4">
                       {footerNavigation.support.map((item) => (
                         <li key={item.name}>
-                          <a
+                          <Link
                             href={item.href}
                             className="text-sm leading-6 text-gray-300 hover:text-white"
                           >
                             {item.name}
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>
@@ -1299,12 +1309,12 @@ export default function Home() {
                     <ul role="list" className="mt-6 space-y-4">
                       {footerNavigation.company.map((item) => (
                         <li key={item.name}>
-                          <a
+                          <Link
                             href={item.href}
                             className="text-sm leading-6 text-gray-300 hover:text-white"
                           >
                             {item.name}
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>
@@ -1316,12 +1326,12 @@ export default function Home() {
                     <ul role="list" className="mt-6 space-y-4">
                       {footerNavigation.legal.map((item) => (
                         <li key={item.name}>
-                          <a
+                          <Link
                             href={item.href}
                             className="text-sm leading-6 text-gray-300 hover:text-white"
                           >
                             {item.name}
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>
@@ -1365,14 +1375,14 @@ export default function Home() {
             <div className="mt-8 border-t border-white/10 pt-8 md:flex md:items-center md:justify-between">
               <div className="flex space-x-6 md:order-2">
                 {footerNavigation.social.map((item) => (
-                  <a
+                  <Link
                     key={item.name}
                     href={item.href}
                     className="text-gray-500 hover:text-gray-400"
                   >
                     <span className="sr-only">{item.name}</span>
                     <item.icon className="h-6 w-6" aria-hidden="true" />
-                  </a>
+                  </Link>
                 ))}
               </div>
               <p className="mt-8 text-xs leading-5 text-gray-400 md:order-1 md:mt-0">
