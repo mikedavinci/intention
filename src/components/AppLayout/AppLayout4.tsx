@@ -21,10 +21,11 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/store';
 import axiosInstance from '@/interceptors/axios';
-import { loginSuccess } from '@/redux/authSlice';
+import { logout, loginSuccess } from '@/redux/authSlice';
 import FooterDash from '../Footers/FooterDash';
 import MenuDash from '../Menus/MenuDash';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: false },
@@ -75,6 +76,8 @@ function classNames(...classes) {
 
 function Dashboard3({ children }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
@@ -84,6 +87,25 @@ function Dashboard3({ children }) {
   // console.log('user', user);
   // console.log('isAuthenticated', isAuthenticated);
   // console.log('dispatch', dispatch);
+
+  const handleLogout = async () => {
+    try {
+      const response = await axiosInstance.post(
+        'logout',
+        {},
+        { withCredentials: true }
+      );
+      if (response.status === 200) {
+        delete axiosInstance.defaults.headers.common['Authorization'];
+        dispatch(logout());
+        toast.success(response.data.message);
+      } else {
+        toast.error(`Error: ${response.status} ${response.statusText}`);
+      }
+    } catch (error: any) {
+      toast.error('Error logging out');
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -116,15 +138,14 @@ function Dashboard3({ children }) {
           mobileMenuOpen={mobileMenuOpen}
           setMobileMenuOpen={setMobileMenuOpen}
         />
-
         {/* Content area */}
         <div className="flex flex-1 flex-col overflow-hidden">
           <header className="w-full">
             <div className="relative z-10 flex h-16 flex-shrink-0 border-b border-gray-200 bg-white shadow-sm">
               <button
                 type="button"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
-                onClick={() => setMobileMenuOpen(true)}
               >
                 <span className="sr-only">Open sidebar</span>
                 <Bars3BottomLeftIcon className="h-6 w-6" aria-hidden="true" />
@@ -166,7 +187,10 @@ function Dashboard3({ children }) {
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative flex-shrink-0">
                     <div>
-                      <Menu.Button className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
+                      <Menu.Button
+                        onClick={() => setUserMenuOpen(!userMenuOpen)}
+                        className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+                      >
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
@@ -176,6 +200,7 @@ function Dashboard3({ children }) {
                       </Menu.Button>
                     </div>
                     <Transition
+                      show={userMenuOpen}
                       as={Fragment}
                       enter="transition ease-out duration-100"
                       enterFrom="transform opacity-0 scale-95"
@@ -189,6 +214,11 @@ function Dashboard3({ children }) {
                           <Menu.Item key={item.name}>
                             {({ active }) => (
                               <Link
+                                onClick={
+                                  item.name === 'Sign out'
+                                    ? handleLogout
+                                    : undefined
+                                }
                                 href={item.href}
                                 className={classNames(
                                   active ? 'bg-gray-100' : '',

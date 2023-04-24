@@ -24,9 +24,6 @@ import { Fragment, useEffect, useState } from 'react';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Dashboard3 from '@/components/AppLayout/AppLayout4';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/store';
-import axiosInstance from '../../interceptors/axios';
 
 const orders = [
   {
@@ -261,7 +258,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function IndexDashboard(props: any) {
+function IndexDashboard(props: any) {
   const [selected, setSelected] = useState(settings[0]);
   const [topic, setTopic] = useState('');
   const [keywords, setKeywords] = useState(['']);
@@ -359,6 +356,8 @@ export default function IndexDashboard(props: any) {
     </>
   );
 }
+
+export default IndexDashboard;
 
 IndexDashboard.getLayout = function getLayout(page: any, pageProps: any) {
   return <Dashboard3 {...pageProps}>{page}</Dashboard3>;
