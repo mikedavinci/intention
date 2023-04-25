@@ -26,6 +26,7 @@ import FooterDash from '../Footers/FooterDash';
 import MenuDash from '../Menus/MenuDash';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: false },
@@ -83,6 +84,7 @@ function Dashboard3({ children }) {
   );
   const user = useSelector((state: RootState) => state.auth.user);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   // console.log('user', user);
   // console.log('isAuthenticated', isAuthenticated);
@@ -99,6 +101,7 @@ function Dashboard3({ children }) {
         delete axiosInstance.defaults.headers.common['Authorization'];
         dispatch(logout());
         toast.success(response.data.message);
+        router.push('/user/login');
       } else {
         toast.error(`Error: ${response.status} ${response.statusText}`);
       }
@@ -193,7 +196,7 @@ function Dashboard3({ children }) {
                       >
                         <span className="sr-only">Open user menu</span>
                         <img
-                          className="h-8 w-8 rounded-full"
+                          className="h-10 w-10 rounded-full"
                           src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80"
                           alt=""
                         />
@@ -238,7 +241,7 @@ function Dashboard3({ children }) {
                     type="button"
                     className="rounded-full bg-indigo-600 p-1.5 text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
-                    <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                    <PlusIcon className="h-8 w-8" aria-hidden="true" />
                     <span className="sr-only">Add file</span>
                   </button>
                 </div>

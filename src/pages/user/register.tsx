@@ -48,19 +48,19 @@ function Register() {
       });
       if (response.status === 201) {
         dispatch(registerSuccess());
-
+        console.log(response);
         toast.success('Please check your email inbox for a verification link.');
         setRedirect(true);
         router.push('/user/login');
       }
     } catch (error: any) {
-      dispatch(
-        registerFailure(
-          error.response.data.message || error.response.statusText
-        )
-      );
+      const errorMessage =
+        error.response && error.response.data.message.message
+          ? error.response.data.message.message
+          : error.message.message || error.response.statusText;
+      dispatch(registerFailure(errorMessage));
 
-      toast.error(error.response.data.message || error.response.statusText);
+      toast.error(errorMessage);
     }
   };
 
