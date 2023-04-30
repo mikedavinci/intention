@@ -1,50 +1,61 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import { RootState } from './store/store';
+import React, { useEffect } from 'react';
+import { useStore } from 'react-redux';
 import { useRouter } from 'next/router';
-import Dashboard3 from '@/components/AppLayout/AppLayout4';
-import MenuDash from '@/components/Menus/MenuDash';
+import Cookies from 'js-cookie';
+import { useSelector } from 'react-redux';
+import useRedirectIfAuthenticated from '@/hooks/useRedirectIfAuthenticated';
+import withLoading from '@/components/withLoading';
 
 const withAuth = (
   WrappedComponent: any,
-  ProtectedComponent: boolean = true
+  ProtectedComponent: boolean = true,
+  DashboardComponent: React.FC<any> | null = null
 ) => {
-  const AuthWrapper = (props: any) => {
+  const AuthWrapper: React.FC = (props) => {
+    const store = useStore<RootState>();
+    const isAuthenticated = store.getState().auth.isAuthenticated;
     const router = useRouter();
-    const isAuthenticated = useSelector(
-      (state: any) => state.auth.isAuthenticated
-    );
+    const token = Cookies.get('access_token');
 
-    const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+    // Call useRedirectIfAuthenticated hook
+    const redirected = useRedirectIfAuthenticated();
 
-    React.useEffect(() => {
-      if (!isAuthenticated && ProtectedComponent) {
-        router.push('/user/login');
+    useEffect(() => {
+      if (ProtectedComponent && !(isAuthenticated || token)) {
+        router.replace('/user/login');
       }
-    }, [isAuthenticated, router]);
+    }, [isAuthenticated, token, router]);
 
-    if (isAuthenticated) {
-      return (
-        <Dashboard3>
-          <MenuDash
-            mobileMenuOpen={mobileMenuOpen}
-            setMobileMenuOpen={setMobileMenuOpen}
-          />
-          <WrappedComponent {...props} />
-        </Dashboard3>
-      );
-    } else if (!ProtectedComponent) {
-      return (
-        <Dashboard3>
-          <MenuDash
-            mobileMenuOpen={mobileMenuOpen}
-            setMobileMenuOpen={setMobileMenuOpen}
-          />
-          <WrappedComponent {...props} />
-        </Dashboard3>
-      );
-    }
+    const WrappedComponentWithLoading = withLoading(WrappedComponent);
 
-    return null;
+    return (
+      <>
+        {isAuthenticated || ProtectedComponent ? (
+          DashboardComponent ? (
+            <DashboardComponent>
+              <WrappedComponentWithLoading
+                isAuthenticated={isAuthenticated}
+                token={token}
+                {...props}
+              />
+            </DashboardComponent>
+          ) : (
+            <WrappedComponentWithLoading
+              isAuthenticated={isAuthenticated}
+              token={token}
+              {...props}
+            />
+          )
+        ) : (
+          <WrappedComponentWithLoading
+            isAuthenticated={isAuthenticated}
+            token={token}
+            {...props}
+          />
+        )}
+      </>
+    );
   };
 
   return AuthWrapper;

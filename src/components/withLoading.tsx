@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
 import { MoonLoader } from 'react-spinners';
+import useRedirectIfAuthenticated from '../hooks/useRedirectIfAuthenticated';
+import { useRouter } from 'next/router';
 
-interface Props {
-  children: React.ReactNode;
+interface WithLoadingProps {
+  isAuthenticated: boolean;
+  token: string | undefined;
 }
 
-const withLoading = (WrappedComponent: React.ComponentType<any>) => {
-  return function WithLoadingComponent(props: Props) {
-    const [loading, setLoading] = useState(true);
+const withLoading = (
+  WrappedComponent: React.ComponentType<any>
+): React.ComponentType<WithLoadingProps> => {
+  const WithLoadingComponent = (props: WithLoadingProps) => {
+    const { isAuthenticated, token } = props;
+
+    const [loading, setLoading] = useState(!isAuthenticated && !token);
 
     useEffect(() => {
-      setLoading(false);
-    }, []);
+      setLoading(!isAuthenticated && !token);
+    }, [isAuthenticated, token]);
+
+    // Log the values
+    console.log('loading:', loading);
+    console.log('isAuthenticated:', isAuthenticated);
+    console.log('token:', token);
 
     return (
       <>
@@ -25,6 +39,8 @@ const withLoading = (WrappedComponent: React.ComponentType<any>) => {
       </>
     );
   };
+
+  return WithLoadingComponent;
 };
 
 export default withLoading;

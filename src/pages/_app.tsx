@@ -7,6 +7,8 @@ import '../interceptors/axios';
 import store from '../redux/store/store';
 import { Provider } from 'react-redux';
 import withLoading from '../components/withLoading';
+import withAuth from '../redux/withAuth';
+import { useRouter } from 'next/router';
 
 const dmSans = DM_Sans({
   weight: ['400', '500', '700'],
@@ -22,6 +24,7 @@ const dmSerifDisplay = DM_Serif_Display({
 
 function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page: any) => page);
+
   return (
     <>
       <Provider store={store}>
@@ -43,4 +46,4 @@ function App({ Component, pageProps }: AppProps) {
   );
 }
 
-export default withLoading(App);
+export default App;

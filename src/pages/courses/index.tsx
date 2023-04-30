@@ -1,6 +1,7 @@
 import Dashboard3 from '@/components/AppLayout/AppLayout4';
 import React from 'react';
 import Link from 'next/link';
+import withAuth from '@/redux/withAuth';
 
 const posts = [
   {
@@ -185,7 +186,7 @@ function Courses() {
   );
 }
 
-export default Courses;
+export default withAuth(Courses, true, Dashboard3);
 
 Courses.getLayout = function getLayout(page: any, pageProps: any) {
   return <Dashboard3 {...pageProps}>{page}</Dashboard3>;

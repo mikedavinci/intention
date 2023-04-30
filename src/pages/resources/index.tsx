@@ -19,6 +19,7 @@ import {
   PlusIcon,
   Squares2X2Icon as Squares2X2IconMini,
 } from '@heroicons/react/20/solid';
+import withAuth from '@/redux/withAuth';
 
 const tabs = [
   { name: 'Recently Viewed', href: '#', current: true },
@@ -329,7 +330,7 @@ function Resources() {
   );
 }
 
-export default Resources;
+export default withAuth(Resources, true, Dashboard3);
 
 Resources.getLayout = function getLayout(page: any, pageProps: any) {
   return <Dashboard3 {...pageProps}>{page}</Dashboard3>;

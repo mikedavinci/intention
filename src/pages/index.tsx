@@ -418,7 +418,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Home() {
+function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
@@ -1395,3 +1395,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;

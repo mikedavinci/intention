@@ -8,16 +8,25 @@ import axiosInstance from '@/interceptors/axios';
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { loginStart, loginSuccess, loginFailure } from '@/redux/authSlice';
-
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 export default function Login() {
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector(
+    (state: any) => state.auth.isAuthenticated
+  );
 
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
-
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
+
+  const token = Cookies.get('access_token');
+  if (isAuthenticated || token) {
+    router.push('/dashboard');
+    return null;
+  }
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();

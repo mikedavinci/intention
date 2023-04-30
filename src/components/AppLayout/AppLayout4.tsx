@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
   Bars3BottomLeftIcon,
@@ -27,6 +27,7 @@ import MenuDash from '../Menus/MenuDash';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: false },
@@ -110,21 +111,34 @@ function Dashboard3({ children }) {
     }
   };
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await axiosInstance.get('user');
-
-        if (data) {
-          // Update the global user state with the fetched data
-          dispatch(loginSuccess({ user: data }));
-        }
-      } catch (error: any) {
-        // Handle errors appropriately
-        console.error(error.response?.data.message);
+  const fetchUserData = useCallback(async () => {
+    try {
+      const { data } = await axiosInstance.get('user');
+      if (data) {
+        dispatch(
+          loginSuccess({
+            user: data,
+            token: Cookies.get('access_token'),
+          })
+        );
       }
-    })();
+    } catch (error: any) {
+      if (
+        error.response?.status !== 500 &&
+        error.response?.data.message !== 'Authorization header not found'
+      ) {
+        toast.error(error.response?.data.message);
+      }
+      dispatch(logout());
+    }
   }, [dispatch]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    fetchUserData();
+  }, [fetchUserData]);
 
   return (
     <>
@@ -138,6 +152,7 @@ function Dashboard3({ children }) {
       */}
       <div className="flex h-full">
         <MenuDash
+          key="menuDash"
           mobileMenuOpen={mobileMenuOpen}
           setMobileMenuOpen={setMobileMenuOpen}
         />
@@ -372,7 +387,7 @@ function Dashboard3({ children }) {
           </div>
         </aside> */}
       </div>
-      <FooterDash />
+      <FooterDash key="footerDash" />
     </>
   );
 }

@@ -1,4 +1,5 @@
 import Dashboard3 from '@/components/AppLayout/AppLayout4';
+import withAuth from '@/redux/withAuth';
 import React from 'react';
 
 const products = [
@@ -231,7 +232,7 @@ function Exercises() {
   );
 }
 
-export default Exercises;
+export default withAuth(Exercises, true, Dashboard3);
 
 Exercises.getLayout = function getLayout(page: any, pageProps: any) {
   return <Dashboard3 {...pageProps}>{page}</Dashboard3>;

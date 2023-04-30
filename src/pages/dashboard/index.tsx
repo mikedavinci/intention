@@ -37,6 +37,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Dashboard3 from '@/components/AppLayout/AppLayout4';
+import withAuth from '@/redux/withAuth';
 
 const orders = [
   {
@@ -603,7 +604,7 @@ function IndexDashboard(props: any) {
   );
 }
 
-export default IndexDashboard;
+export default withAuth(IndexDashboard, true, Dashboard3);
 
 IndexDashboard.getLayout = function getLayout(page: any, pageProps: any) {
   return <Dashboard3 {...pageProps}>{page}</Dashboard3>;
