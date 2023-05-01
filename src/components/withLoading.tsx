@@ -16,7 +16,7 @@ const withLoading = (
 ): React.ComponentType<WithLoadingProps> => {
   const WithLoadingComponent = (props: WithLoadingProps) => {
     const { isAuthenticated, token } = props;
-    const [loading, setLoading] = useState(!isAuthenticated && !token);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
       setLoading(!isAuthenticated && !token);
