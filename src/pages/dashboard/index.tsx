@@ -38,36 +38,12 @@ import { CheckIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Dashboard3 from '@/components/AppLayout/AppLayout4';
 import withAuth from '@/redux/withAuth';
+import { loginSuccess, logout } from '@/redux/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store/store';
+import axiosInstance from '@/interceptors/axios';
+import Cookies from 'js-cookie';
 
-const orders = [
-  {
-    number: 'WU88191111',
-    date: 'January 22, 2021',
-    datetime: '2021-01-22',
-    href: '#',
-    invoiceHref: '#',
-    total: '$302.00',
-    products: [
-      {
-        id: 1,
-        name: 'Nomad Tumbler',
-        description:
-          "This durable double-walled insulated tumbler keeps your beverages at the perfect temperature all day long. Hot, cold, or even lukewarm if you're weird like that, this bottle is ready for your next adventure.",
-        href: '#',
-        price: '$35.00',
-        status: 'out-for-delivery',
-        date: 'January 5, 2021',
-        datetime: '2021-01-05',
-        imageSrc:
-          'https://tailwindui.com/img/ecommerce-images/order-history-page-06-product-01.jpg',
-        imageAlt:
-          'Olive drab green insulated bottle with flared screw lid and flat top.',
-      },
-      // More products...
-    ],
-  },
-  // More orders...
-];
 const cards = [
   { name: 'Account balance', href: '#', icon: ScaleIcon, amount: '$30,659.45' },
   // More items...
@@ -294,9 +270,50 @@ function classNames(...classes: string[]) {
 }
 
 function IndexDashboard(props: any) {
-  const [selected, setSelected] = useState(settings[0]);
-  const [topic, setTopic] = useState('');
-  const [keywords, setKeywords] = useState(['']);
+  // const [selected, setSelected] = useState(settings[0]);
+  // const [topic, setTopic] = useState('');
+  // const [keywords, setKeywords] = useState(['']);
+  // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // const isAuthenticated = useSelector(
+  //   (state: RootState) => state.auth.isAuthenticated
+  // );
+  // const user = useSelector((state: RootState) => state.auth.user);
+  // console.log(user);
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   // Check if the code is running on the client-side
+  //   if (typeof window === 'undefined') {
+  //     return;
+  //   }
+  //   (async () => {
+  //     try {
+  //       const { data } = await axiosInstance.get('user');
+  //       // console.log(data);
+
+  //       if (data) {
+  //         dispatch(
+  //           loginSuccess({
+  //             user: data,
+  //             token: Cookies.get('access_token'),
+  //           })
+  //         );
+  //       }
+  //     } catch (error: any) {
+  //       // Check if the error is due to missing Authorization header
+  //       if (
+  //         error.response?.status !== 500 &&
+  //         error.response?.data.message !== 'Authorization header not found'
+  //       ) {
+  //         toast.error(error.response?.data.message);
+  //       }
+  //       dispatch(logout());
+  //     }
+  //   })();
+  // }, [dispatch]);
+
+  const isAuthenticated = props.isAuthenticated;
+  const token = props.token;
 
   return (
     <>
@@ -604,7 +621,7 @@ function IndexDashboard(props: any) {
   );
 }
 
-export default withAuth(IndexDashboard, true, Dashboard3);
+export default IndexDashboard;
 
 IndexDashboard.getLayout = function getLayout(page: any, pageProps: any) {
   return <Dashboard3 {...pageProps}>{page}</Dashboard3>;

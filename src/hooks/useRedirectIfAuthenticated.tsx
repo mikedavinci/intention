@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
+import { useEffect } from 'react';
 
 function useRedirectIfAuthenticated() {
   const router = useRouter();
@@ -9,10 +10,11 @@ function useRedirectIfAuthenticated() {
   );
   const token = Cookies.get('access_token');
 
-  if (isAuthenticated || token) {
-    router.replace('/dashboard');
-    return true;
-  }
+  useEffect(() => {
+    if (isAuthenticated || token) {
+      router.replace('/dashboard');
+    }
+  }, [isAuthenticated, router, token]);
 
   return false;
 }

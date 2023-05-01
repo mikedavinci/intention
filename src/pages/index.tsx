@@ -30,7 +30,7 @@ import Logo from '@/components/Logo/Logo';
 import axiosInstance from '@/interceptors/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/store';
-import { loginSuccess, logout } from '@/redux/authSlice'; // Import the necessary actions
+import { loginSuccess, logout } from '@/redux/authSlice';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 

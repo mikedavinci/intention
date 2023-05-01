@@ -18,9 +18,6 @@ const withAuth = (
     const router = useRouter();
     const token = Cookies.get('access_token');
 
-    // Call useRedirectIfAuthenticated hook
-    const redirected = useRedirectIfAuthenticated();
-
     useEffect(() => {
       if (ProtectedComponent && !(isAuthenticated || token)) {
         router.replace('/user/login');
@@ -37,6 +34,7 @@ const withAuth = (
               <WrappedComponentWithLoading
                 isAuthenticated={isAuthenticated}
                 token={token}
+                loading={!isAuthenticated && !token}
                 {...props}
               />
             </DashboardComponent>
@@ -44,6 +42,7 @@ const withAuth = (
             <WrappedComponentWithLoading
               isAuthenticated={isAuthenticated}
               token={token}
+              loading={!isAuthenticated && !token}
               {...props}
             />
           )
@@ -51,6 +50,7 @@ const withAuth = (
           <WrappedComponentWithLoading
             isAuthenticated={isAuthenticated}
             token={token}
+            loading={!isAuthenticated && !token}
             {...props}
           />
         )}

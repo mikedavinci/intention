@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 interface WithLoadingProps {
   isAuthenticated: boolean;
   token: string | undefined;
+  loading: boolean;
 }
 
 const withLoading = (
@@ -15,14 +16,12 @@ const withLoading = (
 ): React.ComponentType<WithLoadingProps> => {
   const WithLoadingComponent = (props: WithLoadingProps) => {
     const { isAuthenticated, token } = props;
-
     const [loading, setLoading] = useState(!isAuthenticated && !token);
 
     useEffect(() => {
       setLoading(!isAuthenticated && !token);
     }, [isAuthenticated, token]);
 
-    // Log the values
     console.log('loading:', loading);
     console.log('isAuthenticated:', isAuthenticated);
     console.log('token:', token);
