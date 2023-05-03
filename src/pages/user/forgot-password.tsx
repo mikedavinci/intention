@@ -4,8 +4,23 @@ import { useEffect, useState, SyntheticEvent } from 'react';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 function Forgot() {
   const [email, setEmail] = useState('');
+  const isAuthenticated = useSelector(
+    (state: any) => state.auth.isAuthenticated
+  );
+
+  const router = useRouter();
+
+  const token = Cookies.get('access_token');
+  useEffect(() => {
+    if (isAuthenticated || token) {
+      router.push('/dashboard');
+    }
+  }, [isAuthenticated, router, token]);
 
   const submit = async (e: SyntheticEvent) => {
     e.preventDefault();

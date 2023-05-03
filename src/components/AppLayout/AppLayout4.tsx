@@ -173,7 +173,6 @@ function Dashboard3({ children }) {
         delete axiosInstance.defaults.headers.common['Authorization'];
         dispatch(logout());
         toast.success(response.data.message);
-        router.push('/user/login');
       } else {
         toast.error(`Error: ${response.status} ${response.statusText}`);
       }
@@ -182,34 +181,65 @@ function Dashboard3({ children }) {
     }
   };
 
-  const fetchUserData = useCallback(async () => {
-    try {
-      const { data } = await axiosInstance.get('user');
-      if (data) {
-        dispatch(
-          loginSuccess({
-            user: data,
-            token: Cookies.get('access_token'),
-          })
-        );
-      }
-    } catch (error: any) {
-      if (
-        error.response?.status !== 500 &&
-        error.response?.data.message !== 'Authorization header not found'
-      ) {
-        toast.error(error.response?.data.message);
-      }
-      dispatch(logout());
-    }
-  }, [dispatch]);
+  // const fetchUserData = useCallback(async () => {
+  //   try {
+  //     const { data } = await axiosInstance.get('user');
+  //     if (data) {
+  //       dispatch(
+  //         loginSuccess({
+  //           user: data,
+  //           token: Cookies.get('access_token'),
+  //         })
+  //       );
+  //     }
+  //   } catch (error: any) {
+  //     if (
+  //       error.response?.status !== 500 &&
+  //       error.response?.data.message !== 'Authorization header not found'
+  //     ) {
+  //       toast.error(error.response?.data.message);
+  //     }
+  //     dispatch(logout());
+  //   }
+  // }, [dispatch]);
+
+  // useEffect(() => {
+  //   if (typeof window === 'undefined') {
+  //     return;
+  //   }
+  //   fetchUserData();
+  // }, []);
 
   useEffect(() => {
+    // Check if the code is running on the client-side
     if (typeof window === 'undefined') {
       return;
     }
-    fetchUserData();
-  }, [fetchUserData]);
+    (async () => {
+      try {
+        const { data } = await axiosInstance.get('user');
+        // console.log(data);
+
+        if (data) {
+          dispatch(
+            loginSuccess({
+              user: data,
+              token: Cookies.get('access_token'),
+            })
+          );
+        }
+      } catch (error: any) {
+        // Check if the error is due to missing Authorization header
+        if (
+          error.response?.status !== 500 &&
+          error.response?.data.message !== 'Authorization header not found'
+        ) {
+          toast.error(error.response?.data.message);
+        }
+        dispatch(logout());
+      }
+    })();
+  }, [dispatch]);
 
   const updatedNavigation = navigation.map((item) => {
     return {
@@ -240,9 +270,9 @@ function Dashboard3({ children }) {
               />
             </div>
             <div className="mt-6 w-full flex-1 space-y-1 px-2">
-              {updatedNavigation.map((item) => (
+              {updatedNavigation.map((item, index) => (
                 <Link
-                  key={item.name}
+                  key={item.name + index}
                   href={item.href}
                   className={classNames(
                     item.current
@@ -331,9 +361,9 @@ function Dashboard3({ children }) {
                   <div className="mt-5 h-0 flex-1 overflow-y-auto px-2">
                     <nav className="flex h-full flex-col">
                       <div className="space-y-1">
-                        {updatedNavigation.map((item) => (
+                        {updatedNavigation.map((item, index) => (
                           <Link
-                            key={item.name}
+                            key={item.name + index}
                             href={item.href}
                             className={classNames(
                               item.current
@@ -439,8 +469,8 @@ function Dashboard3({ children }) {
                       leaveTo="transform opacity-0 scale-95"
                     >
                       <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        {userNavigation.map((item) => (
-                          <Menu.Item key={item.name}>
+                        {userNavigation.map((item, index) => (
+                          <Menu.Item key={item.name + index}>
                             {({ active }) => (
                               <Link
                                 onClick={
@@ -480,130 +510,13 @@ function Dashboard3({ children }) {
             <main className="flex-1 overflow-y-auto">{children}</main>
           </div>
         </div>
-        {/* Details sidebar */}
-        {/* <aside className="hidden w-96 overflow-y-auto border-l border-gray-200 bg-white p-8 lg:block">
-          <div className="space-y-6 pb-16">
-            <div>
-              <div className="aspect-w-10 aspect-h-7 block w-full overflow-hidden rounded-lg">
-                <img src={currentFile.source} alt="" className="object-cover" />
-              </div>
-              <div className="mt-4 flex items-start justify-between">
-                <div>
-                  <h2 className="text-lg font-medium text-gray-900">
-                    <span className="sr-only">Details for </span>
-                    {currentFile.name}
-                  </h2>
-                  <p className="text-sm font-medium text-gray-500">
-                    {currentFile.size}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  className="ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                >
-                  <HeartIcon className="h-6 w-6" aria-hidden="true" />
-                  <span className="sr-only">Favorite</span>
-                </button>
-              </div>
-            </div>
-            <div>
-              <h3 className="font-medium text-gray-900">Information</h3>
-              <dl className="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200">
-                {Object.keys(currentFile.information).map((key) => (
-                  <div
-                    key={key}
-                    className="flex justify-between py-3 text-sm font-medium"
-                  >
-                    <dt className="text-gray-500">{key}</dt>
-                    <dd className="whitespace-nowrap text-gray-900">
-                      {currentFile.information[key]}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-            <div>
-              <h3 className="font-medium text-gray-900">Description</h3>
-              <div className="mt-2 flex items-center justify-between">
-                <p className="text-sm italic text-gray-500">
-                  Add a description to this image.
-                </p>
-                <button
-                  type="button"
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                >
-                  <PencilIcon className="h-5 w-5" aria-hidden="true" />
-                  <span className="sr-only">Add description</span>
-                </button>
-              </div>
-            </div>
-            <div>
-              <h3 className="font-medium text-gray-900">Shared with</h3>
-              <ul
-                role="list"
-                className="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200"
-              >
-                {currentFile.sharedWith.map((person) => (
-                  <li
-                    key={person.id}
-                    className="flex items-center justify-between py-3"
-                  >
-                    <div className="flex items-center">
-                      <img
-                        src={person.imageUrl}
-                        alt=""
-                        className="h-8 w-8 rounded-full"
-                      />
-                      <p className="ml-4 text-sm font-medium text-gray-900">
-                        {person.name}
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      className="ml-6 rounded-md bg-white text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >
-                      Remove<span className="sr-only"> {person.name}</span>
-                    </button>
-                  </li>
-                ))}
-                <li className="flex items-center justify-between py-2">
-                  <button
-                    type="button"
-                    className="group -ml-1 flex items-center rounded-md bg-white p-1 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  >
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-dashed border-gray-300 text-gray-400">
-                      <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                    </span>
-                    <span className="ml-4 text-sm font-medium text-indigo-600 group-hover:text-indigo-500">
-                      Share
-                    </span>
-                  </button>
-                </li>
-              </ul>
-            </div>
-            <div className="flex gap-x-3">
-              <button
-                type="button"
-                className="flex-1 rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Download
-              </button>
-              <button
-                type="button"
-                className="flex-1 rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </aside> */}
       </div>
       <footer className="bg-gray-900">
         <div className="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
           <div className="flex justify-center space-x-6 md:order-2">
-            {footernavigation.map((item) => (
+            {footernavigation.map((item, index) => (
               <Link
-                key={item.name}
+                key={item.name + index}
                 href={item.href}
                 className="text-gray-400 hover:text-gray-500"
               >

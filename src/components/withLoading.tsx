@@ -22,9 +22,9 @@ const withLoading = (
       setLoading(!isAuthenticated && !token);
     }, [isAuthenticated, token]);
 
-    console.log('loading:', loading);
-    console.log('isAuthenticated:', isAuthenticated);
-    console.log('token:', token);
+    // console.log('loading:', loading);
+    // console.log('isAuthenticated:', isAuthenticated);
+    // console.log('token:', token);
 
     return (
       <>

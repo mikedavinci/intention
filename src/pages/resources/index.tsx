@@ -330,7 +330,7 @@ function Resources() {
   );
 }
 
-export default Resources;
+export default withAuth(Resources, true, Dashboard3);
 
 Resources.getLayout = function getLayout(page: any, pageProps: any) {
   return <Dashboard3 {...pageProps}>{page}</Dashboard3>;

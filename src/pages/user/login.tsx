@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { loginStart, loginSuccess, loginFailure } from '@/redux/authSlice';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-export default function Login() {
+function Login() {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(
     (state: any) => state.auth.isAuthenticated
@@ -23,10 +23,16 @@ export default function Login() {
   };
 
   const token = Cookies.get('access_token');
-  if (isAuthenticated || token) {
-    router.push('/dashboard');
-    return null;
-  }
+  useEffect(() => {
+    if (isAuthenticated || token) {
+      router.push('/dashboard');
+    }
+  }, [isAuthenticated, token, router]);
+
+  // if (isAuthenticated || token) {
+  //   router.push('/dashboard');
+  //   return null;
+  // }
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -269,6 +275,8 @@ export default function Login() {
     </>
   );
 }
+
+export default Login;
 
 Login.getLayout = function getLayout(page: any, pageProps: any) {
   return <UserPagesLayout {...pageProps}>{page}</UserPagesLayout>;

@@ -23,6 +23,7 @@ import {
   UserGroupIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
+import withAuth from '@/redux/withAuth';
 
 const user = {
   name: 'Chelsea Hagon',
@@ -551,7 +552,7 @@ function Community() {
   );
 }
 
-export default Community;
+export default withAuth(Community, true, Dashboard3);
 
 Community.getLayout = function getLayout(page: any, pageProps: any) {
   return <Dashboard3 {...pageProps}>{page}</Dashboard3>;

@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import withLoading from '../components/withLoading';
 import withAuth from '../redux/withAuth';
 import { useRouter } from 'next/router';
+import { NextComponentType, NextPageContext } from 'next';
 
 const dmSans = DM_Sans({
   weight: ['400', '500', '700'],
@@ -22,7 +23,14 @@ const dmSerifDisplay = DM_Serif_Display({
   variable: '--font-dm-serif-display',
 });
 
-function App({ Component, pageProps }: AppProps) {
+type CustomComponentType = NextComponentType<NextPageContext, any, any> & {
+  getLayout?: (page: JSX.Element, pageProps: any) => JSX.Element;
+};
+
+function App({
+  Component,
+  pageProps,
+}: AppProps & { Component: CustomComponentType }) {
   const getLayout = Component.getLayout || ((page: any) => page);
 
   return (

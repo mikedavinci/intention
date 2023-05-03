@@ -3,6 +3,7 @@ import React from 'react';
 import { Fragment } from 'react';
 import { StarIcon } from '@heroicons/react/20/solid';
 import { Tab } from '@headlessui/react';
+import withAuth from '@/redux/withAuth';
 
 const product = {
   name: 'Application UI Icon Pack',
@@ -97,7 +98,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-function Course() {
+function CourseId() {
   return (
     <div className="bg-white">
       <div className="mx-auto px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
@@ -390,8 +391,8 @@ function Course() {
   );
 }
 
-export default Course;
+export default withAuth(CourseId, true, Dashboard3);
 
-Course.getLayout = function getLayout(page: any, pageProps: any) {
+CourseId.getLayout = function getLayout(page: any, pageProps: any) {
   return <Dashboard3 {...pageProps}>{page}</Dashboard3>;
 };

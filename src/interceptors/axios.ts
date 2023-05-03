@@ -22,18 +22,46 @@ instance.interceptors.response.use(
   },
   async (error) => {
     if (error.response.status === 401) {
-      const response = await axios.post(
-        'http://localhost:8001/api/refresh',
-        {},
-        { withCredentials: true }
-      );
+      const originalRequest = error.config;
 
-      if (response.status === 200) {
-        console.log('interceptor', response);
-        axios.defaults.headers.common[
-          'Authorization'
-        ] = `Bearer ${response.data.token}`;
-        return axios(error.config);
+      // console.log('Original request:', originalRequest);
+      // Log the original request
+
+      try {
+        const response = await instance.post(
+          'refresh',
+          {},
+          { withCredentials: true }
+        );
+
+        console.log('Refresh response:', response);
+        // Log the refresh response
+
+        if (response.status === 201) {
+          // console.log('interceptor', response);
+          // Update token in cookies and headers
+          Cookies.set('access_token', response.data.token);
+          instance.defaults.headers.common[
+            'Authorization'
+          ] = `Bearer ${response.data.token}`;
+          originalRequest.headers.Authorization = `Bearer ${response.data.token}`;
+
+          // console.log('Updated request:', originalRequest);
+          // Log the updated request
+
+          return instance(originalRequest);
+        }
+      } catch (refreshError) {
+        console.error('Refresh error:', refreshError);
+
+        // Remove token and refresh token from cookies
+        Cookies.remove('access_token');
+        Cookies.remove('refresh_token');
+
+        // Redirect the user to the login page
+        if (typeof window !== 'undefined') {
+          window.location.href = '/user/login';
+        }
       }
     }
 

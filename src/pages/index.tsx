@@ -424,7 +424,7 @@ function Home() {
     (state: RootState) => state.auth.isAuthenticated
   );
   const user = useSelector((state: RootState) => state.auth.user);
-  console.log(user);
+  // console.log(user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -548,7 +548,7 @@ function Home() {
                   {isAuthenticated === true ? (
                     <Image
                       src="https://loremflickr.com/32/32"
-                      alt={user?.name || 'none'}
+                      alt={user.name || 'none'}
                       width={32}
                       height={32}
                       className="rounded-full"

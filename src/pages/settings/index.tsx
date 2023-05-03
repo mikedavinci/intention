@@ -498,7 +498,7 @@ function Settings() {
   );
 }
 
-export default Settings;
+export default withAuth(Settings, true, Dashboard3);
 
 Settings.getLayout = function getLayout(page: any, pageProps: any) {
   return <Dashboard3 {...pageProps}>{page}</Dashboard3>;

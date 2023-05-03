@@ -13,8 +13,9 @@ const withAuth = (
   DashboardComponent: React.FC<any> | null = null
 ) => {
   const AuthWrapper: React.FC = (props) => {
-    const store = useStore<RootState>();
-    const isAuthenticated = store.getState().auth.isAuthenticated;
+    const isAuthenticated = useSelector(
+      (state: RootState) => state.auth.isAuthenticated
+    );
     const router = useRouter();
     const token = Cookies.get('access_token');
 

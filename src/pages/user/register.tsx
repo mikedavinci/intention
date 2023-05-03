@@ -5,15 +5,19 @@ import router from 'next/router';
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/20/solid';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   registerStart,
   registerSuccess,
   registerFailure,
 } from '@/redux/authSlice';
+import Cookies from 'js-cookie';
 
 function Register() {
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector(
+    (state: any) => state.auth.isAuthenticated
+  );
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,6 +26,13 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
     useState(false);
+
+  const token = Cookies.get('access_token');
+  useEffect(() => {
+    if (isAuthenticated || token) {
+      router.push('/dashboard');
+    }
+  }, [isAuthenticated, token]);
 
   useEffect(() => {
     const htmlElement = document.querySelector('html');
