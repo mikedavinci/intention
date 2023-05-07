@@ -117,6 +117,8 @@ function IndexDashboard(props: any) {
   const isAuthenticated = props.isAuthenticated;
   const token = props.token;
 
+  console.log(isAuthenticated, token);
+
   return (
     <>
       <Head>

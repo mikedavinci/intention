@@ -22,8 +22,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/store';
 import axiosInstance from '@/interceptors/axios';
 import { logout, loginSuccess } from '@/redux/authSlice';
-import FooterDash from '../Footers/FooterDash';
-import MenuDash from '../Menus/MenuDash';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
@@ -369,7 +367,7 @@ function Dashboard3({ children }) {
                               item.current
                                 ? 'bg-indigo-800 text-white'
                                 : 'text-indigo-100 hover:bg-indigo-800 hover:text-white',
-                              'group flex items-center rounded-md py-2 px-3 text-sm font-medium'
+                              'group flex items-center rounded-md py-4 px-3 text-2xl font-regular'
                             )}
                             aria-current={item.current ? 'page' : undefined}
                           >
