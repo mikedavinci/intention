@@ -1,6 +1,7 @@
 import { Fragment, useCallback, useEffect, useState } from 'react';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
+  AcademicCapIcon,
   Bars3BottomLeftIcon,
   CogIcon,
   HeartIcon,
@@ -49,7 +50,12 @@ const navigation = [
     current: false,
   },
   { name: 'Community', href: '/community', icon: HeartIcon, current: false },
-  { name: 'Settings', href: '/settings', icon: CogIcon, current: false },
+  {
+    name: 'My Career',
+    href: '/my-career-journey',
+    icon: AcademicCapIcon,
+    current: false,
+  },
 ];
 
 const footernavigation = [
@@ -117,7 +123,7 @@ const footernavigation = [
 ];
 
 const userNavigation = [
-  { name: 'Your profile', href: '#' },
+  { name: 'Your profile', href: '/settings' },
   { name: 'Sign out', href: '#' },
 ];
 
@@ -178,35 +184,6 @@ function Dashboard3({ children }) {
       toast.error('Error logging out');
     }
   };
-
-  // const fetchUserData = useCallback(async () => {
-  //   try {
-  //     const { data } = await axiosInstance.get('user');
-  //     if (data) {
-  //       dispatch(
-  //         loginSuccess({
-  //           user: data,
-  //           token: Cookies.get('access_token'),
-  //         })
-  //       );
-  //     }
-  //   } catch (error: any) {
-  //     if (
-  //       error.response?.status !== 500 &&
-  //       error.response?.data.message !== 'Authorization header not found'
-  //     ) {
-  //       toast.error(error.response?.data.message);
-  //     }
-  //     dispatch(logout());
-  //   }
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   if (typeof window === 'undefined') {
-  //     return;
-  //   }
-  //   fetchUserData();
-  // }, []);
 
   useEffect(() => {
     // Check if the code is running on the client-side
