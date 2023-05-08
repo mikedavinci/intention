@@ -59,9 +59,9 @@ instance.interceptors.response.use(
         Cookies.remove('refresh_token');
 
         // Redirect the user to the login page
-        if (typeof window !== 'undefined') {
-          window.location.href = '/user/login';
-        }
+        // if (typeof window !== 'undefined') {
+        //   window.location.href = '/user/login';
+        // }
       }
     }
 

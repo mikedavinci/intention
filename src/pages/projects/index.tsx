@@ -264,7 +264,7 @@ function Projects() {
   );
 }
 
-export default Projects;
+export default withAuth(Projects, true, Dashboard3);
 
 Projects.getLayout = function getLayout(page: any, pageProps: any) {
   return <Dashboard3 {...pageProps}>{page}</Dashboard3>;

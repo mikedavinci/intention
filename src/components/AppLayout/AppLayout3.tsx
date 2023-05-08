@@ -1,6 +1,7 @@
 import { Fragment, useCallback, useEffect, useState } from 'react';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
+  AcademicCapIcon,
   Bars3BottomLeftIcon,
   CogIcon,
   HeartIcon,
@@ -49,7 +50,12 @@ const navigation = [
     current: false,
   },
   { name: 'Community', href: '/community', icon: HeartIcon, current: false },
-  { name: 'Settings', href: '/settings', icon: CogIcon, current: false },
+  {
+    name: 'My Career',
+    href: '/my-career-journey',
+    icon: AcademicCapIcon,
+    current: false,
+  },
 ];
 
 const footernavigation = [
@@ -117,7 +123,7 @@ const footernavigation = [
 ];
 
 const userNavigation = [
-  { name: 'Your profile', href: '#' },
+  { name: 'Your profile', href: '/settings' },
   { name: 'Sign out', href: '#' },
 ];
 
@@ -500,12 +506,12 @@ function Dashboard2({ children }) {
             </div>
           </header>
 
-          <div className="flex flex-1 items-stretch overflow-hidden">
-            <main className="flex-1 overflow-y-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr,auto] items-stretch overflow-hidden">
+            <main className="overflow-y-auto">
               {/* Primary column */}
               <section
                 aria-labelledby="primary-heading"
-                className="flex h-full min-w-0 flex-1 flex-col lg:order-last"
+                className="h-full min-w-0 flex-1 flex-col"
               >
                 <h1 id="primary-heading" className="sr-only">
                   Photos
@@ -513,17 +519,16 @@ function Dashboard2({ children }) {
                 {children}
               </section>
             </main>
-
             {/* Secondary column (hidden on smaller screens) */}
-            <aside className="hidden w-96 overflow-y-auto border-l border-gray-200 bg-white lg:block">
+            <aside className="w-full lg:w-96 overflow-y-auto border-l border-gray-200 bg-white">
               <section aria-labelledby="announcements-title">
                 <div className="overflow-hidden rounded-lg bg-white shadow">
-                  <div className="p-6">
+                  <div className="p-3">
                     <h2
-                      className="text-base font-medium text-gray-900"
+                      className="text-xl font-bold text-gray-900"
                       id="announcements-title"
                     >
-                      Announcements
+                      Job Feed
                     </h2>
                     <div className="mt-6 flow-root">
                       <ul
