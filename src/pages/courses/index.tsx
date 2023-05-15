@@ -1,65 +1,23 @@
+/* eslint-disable @next/next/no-img-element */
 import Dashboard3 from '@/components/AppLayout/AppLayout4';
 import React from 'react';
 import Link from 'next/link';
 import withAuth from '@/redux/withAuth';
+import { LockClosedIcon } from '@heroicons/react/20/solid';
 
-const posts = [
-  {
-    title: 'Boost your conversion rate',
-    href: '#',
-    category: { name: 'Article', href: '#' },
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto accusantium praesentium eius, ut atque fuga culpa, similique sequi cum eos quis dolorum.',
-    date: 'Mar 16, 2020',
-    datetime: '2020-03-16',
-    imageUrl:
-      'https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80',
-    readingTime: '6 min',
-    author: {
-      name: 'Roel Aufderehar',
-      href: '#',
-      imageUrl:
-        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+export const getServerSideProps = async () => {
+  // replace 'http://localhost:3000' with your actual server address
+  const res = await fetch('http://localhost:8001/api/courses');
+  const courses = await res.json();
+
+  return {
+    props: {
+      courses,
     },
-  },
-  {
-    title: 'How to use search engine optimization to drive sales',
-    href: '#',
-    category: { name: 'Video', href: '#' },
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit facilis asperiores porro quaerat doloribus, eveniet dolore. Adipisci tempora aut inventore optio animi., tempore temporibus quo laudantium.',
-    date: 'Mar 10, 2020',
-    datetime: '2020-03-10',
-    imageUrl:
-      'https://images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80',
-    readingTime: '4 min',
-    author: {
-      name: 'Brenna Goyette',
-      href: '#',
-      imageUrl:
-        'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-  },
-  {
-    title: 'Improve your customer experience',
-    href: '#',
-    category: { name: 'Case Study', href: '#' },
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint harum rerum voluptatem quo recusandae magni placeat saepe molestiae, sed excepturi cumque corporis perferendis hic.',
-    date: 'Feb 12, 2020',
-    datetime: '2020-02-12',
-    imageUrl:
-      'https://images.unsplash.com/photo-1492724441997-5dc865305da7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80',
-    readingTime: '11 min',
-    author: {
-      name: 'Daniela Metz',
-      href: '#',
-      imageUrl:
-        'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-  },
-];
-function Courses() {
+  };
+};
+
+function Courses({ courses }: any) {
   return (
     <div>
       <div className="bg-gray-100 py-16 sm:py-16">
@@ -73,58 +31,75 @@ function Courses() {
             </p>
           </div>
           <div className="mx-auto mt-12 grid max-w-lg gap-5 lg:max-w-none lg:grid-cols-3">
-            {posts.map((post) => (
+            {courses.map((course) => (
               <div
-                key={post.title}
+                key={course.title}
                 className="flex flex-col overflow-hidden rounded-lg shadow-lg"
               >
                 <div className="flex-shrink-0">
                   <img
                     className="h-48 w-full object-cover"
-                    src={post.imageUrl}
+                    src={course?.image}
                     alt=""
                   />
                 </div>
+
                 <div className="flex flex-1 flex-col justify-between bg-white p-6">
                   <div className="flex-1">
                     <p className="text-sm font-medium text-indigo-600">
-                      <a href={post.category.href} className="hover:underline">
-                        {post.category.name}
+                      <a href={course?.href} className="hover:underline">
+                        {course?.name}
                       </a>
                     </p>
-                    <a href={post.href} className="mt-2 block">
+
+                    <a href={course?.href} className="mt-2 block">
                       <p className="text-xl font-semibold text-gray-900">
-                        {post.title}
+                        {course?.title}
                       </p>
                       <p className="mt-3 text-base text-gray-500">
-                        {post.description}
+                        {course?.description}
                       </p>
                     </a>
                   </div>
+
                   <div className="mt-6 flex items-center">
-                    <div className="flex-shrink-0">
-                      <a href={post.author.href}>
-                        <span className="sr-only">{post.author.name}</span>
+                    {/* <div className="flex-shrink-0">
+                      <a href={course.author.href}>
+                        <span className="sr-only">{course.author.name}</span>
                         <img
                           className="h-10 w-10 rounded-full"
-                          src={post.author.imageUrl}
+                          src={course.author.imageUrl}
                           alt=""
                         />
                       </a>
                     </div>
                     <div className="ml-3">
                       <p className="text-sm font-medium text-gray-900">
-                        <a href={post.author.href} className="hover:underline">
-                          {post.author.name}
+                        <a
+                          href={course.author.href}
+                          className="hover:underline"
+                        >
+                          {course.author.name}
                         </a>
                       </p>
                       <div className="flex space-x-1 text-sm text-gray-500">
-                        <time dateTime={post.datetime}>{post.date}</time>
+                        <time dateTime={course.datetime}>{course.date}</time>
                         <span aria-hidden="true">&middot;</span>
-                        <span>{post.readingTime} read</span>
+                        <span>{course.readingTime} read</span>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
+                  <br />
+                  <Link
+                    href={`/courses/${course?.slug}`}
+                    className="flex items-center justify-center px-2 py-2 bg-blue-500 text-white rounded-lg"
+                  >
+                    <LockClosedIcon
+                      className="h-5 w-5 mr-1"
+                      aria-hidden="true"
+                    />
+                    <span className="text-base">Unlock</span>
+                  </Link>
                 </div>
               </div>
             ))}

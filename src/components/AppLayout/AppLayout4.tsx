@@ -6,6 +6,7 @@ import {
   CogIcon,
   HeartIcon,
   HomeIcon,
+  MapIcon,
   PhotoIcon,
   RectangleStackIcon,
   Squares2X2Icon as Squares2X2IconOutline,
@@ -51,9 +52,9 @@ const navigation = [
   },
   { name: 'Community', href: '/community', icon: HeartIcon, current: false },
   {
-    name: 'My Career',
-    href: '/my-career-journey',
-    icon: AcademicCapIcon,
+    name: 'Career Journey',
+    href: '/career-journey',
+    icon: MapIcon,
     current: false,
   },
 ];
@@ -253,7 +254,7 @@ function Dashboard3({ children }) {
                     item.current
                       ? 'bg-indigo-800 text-white'
                       : 'text-indigo-100 hover:bg-indigo-800 hover:text-white',
-                    'group flex w-full flex-col items-center rounded-md p-3 text-xs font-medium'
+                    'group flex w-full flex-col items-center rounded-md p-3 text-xs text-center font-medium'
                   )}
                   aria-current={item.current ? 'page' : undefined}
                 >
@@ -388,10 +389,10 @@ function Dashboard3({ children }) {
                 <div className="flex flex-1">
                   <form className="flex w-full md:ml-0" action="#" method="GET">
                     <label htmlFor="desktop-search-field" className="sr-only">
-                      Search all files
+                      Search
                     </label>
                     <label htmlFor="mobile-search-field" className="sr-only">
-                      Search all files
+                      Search
                     </label>
                     <div className="relative w-full text-gray-400 focus-within:text-gray-600">
                       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center">
@@ -411,7 +412,7 @@ function Dashboard3({ children }) {
                         name="desktop-search-field"
                         id="desktop-search-field"
                         className="hidden h-full w-full border-0 py-2 pl-8 pr-3 text-sm text-gray-900 focus:outline-none focus:ring-0 focus:placeholder:text-gray-400 sm:block"
-                        placeholder="Search all files"
+                        placeholder="Search"
                         type="search"
                       />
                     </div>

@@ -11,6 +11,7 @@ import {
   Squares2X2Icon as Squares2X2IconOutline,
   UserGroupIcon,
   XMarkIcon,
+  MapIcon,
 } from '@heroicons/react/24/outline';
 import {
   Bars4Icon,
@@ -51,9 +52,9 @@ const navigation = [
   },
   { name: 'Community', href: '/community', icon: HeartIcon, current: false },
   {
-    name: 'My Career',
-    href: '/my-career-journey',
-    icon: AcademicCapIcon,
+    name: 'Career Journey',
+    href: '/career-journey',
+    icon: MapIcon,
     current: false,
   },
 ];
@@ -129,55 +130,55 @@ const userNavigation = [
 
 const recentHires = [
   {
-    name: 'Leonard Krasner',
-    handle: 'leonardkrasner',
+    name: 'Company XYZ',
+    handle: '5pm CST',
     imageUrl:
       'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     href: '#',
   },
   {
-    name: 'Floyd Miles',
-    handle: 'floydmiles',
+    name: 'Company XYZ',
+    handle: '5pm CST ',
     imageUrl:
-      'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     href: '#',
   },
   {
-    name: 'Emily Selman',
-    handle: 'emilyselman',
+    name: 'Company XYZ',
+    handle: '5pm CST ',
     imageUrl:
-      'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     href: '#',
   },
   {
-    name: 'Kristin Watson',
-    handle: 'kristinwatson',
+    name: 'Company XYZ',
+    handle: '5pm CST',
     imageUrl:
-      'https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     href: '#',
   },
 ];
 const announcements = [
   {
     id: 1,
-    title: 'Office closed on July 2nd',
+    title: 'React Front End Developer',
     href: '#',
     preview:
-      'Cum qui rem deleniti. Suscipit in dolor veritatis sequi aut. Vero ut earum quis deleniti. Ut a sunt eum cum ut repudiandae possimus. Nihil ex tempora neque cum consectetur dolores.',
+      'About CrowdHealth: CrowdHealth is transforming the healthcare industry by providing an alternative way to pay for healthcare, focusing on a direct relationship between patients and their doctors. ',
   },
   {
     id: 2,
-    title: 'New password policy',
+    title: 'Node Back End Developer',
     href: '#',
     preview:
-      'Alias inventore ut autem optio voluptas et repellendus. Facere totam quaerat quam quo laudantium cumque eaque excepturi vel. Accusamus maxime ipsam reprehenderit rerum id repellendus rerum. Culpa cum vel natus. Est sit autem mollitia.',
+      'About CrowdHealth: CrowdHealth is transforming the healthcare industry by providing an alternative way to pay for healthcare, focusing on a direct relationship between patients and their doctors. ',
   },
   {
     id: 3,
-    title: 'Office closed on July 2nd',
+    title: 'Full Stack Developer',
     href: '#',
     preview:
-      'Tenetur libero voluptatem rerum occaecati qui est molestiae exercitationem. Voluptate quisquam iure assumenda consequatur ex et recusandae. Alias consectetur voluptatibus. Accusamus a ab dicta et. Consequatur quis dignissimos voluptatem nisi.',
+      'About CrowdHealth: CrowdHealth is transforming the healthcare industry by providing an alternative way to pay for healthcare, focusing on a direct relationship between patients and their doctors. ',
   },
 ];
 
@@ -279,7 +280,7 @@ function Dashboard2({ children }) {
                     item.current
                       ? 'bg-indigo-800 text-white'
                       : 'text-indigo-100 hover:bg-indigo-800 hover:text-white',
-                    'group flex w-full flex-col items-center rounded-md p-3 text-xs font-medium'
+                    'group flex w-full flex-col items-center rounded-md p-3 text-xs font-medium text-center'
                   )}
                   aria-current={item.current ? 'page' : undefined}
                 >
@@ -414,10 +415,10 @@ function Dashboard2({ children }) {
                 <div className="flex flex-1">
                   <form className="flex w-full md:ml-0" action="#" method="GET">
                     <label htmlFor="desktop-search-field" className="sr-only">
-                      Search all files
+                      Search
                     </label>
                     <label htmlFor="mobile-search-field" className="sr-only">
-                      Search all files
+                      Search
                     </label>
                     <div className="relative w-full text-gray-400 focus-within:text-gray-600">
                       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center">
@@ -437,7 +438,7 @@ function Dashboard2({ children }) {
                         name="desktop-search-field"
                         id="desktop-search-field"
                         className="hidden h-full w-full border-0 py-2 pl-8 pr-3 text-sm text-gray-900 focus:outline-none focus:ring-0 focus:placeholder:text-gray-400 sm:block"
-                        placeholder="Search all files"
+                        placeholder="Search"
                         type="search"
                       />
                     </div>
@@ -521,56 +522,6 @@ function Dashboard2({ children }) {
             </main>
             {/* Secondary column (hidden on smaller screens) */}
             <aside className="w-full lg:w-96 overflow-y-auto border-l border-gray-200 bg-white">
-              <section aria-labelledby="announcements-title">
-                <div className="overflow-hidden rounded-lg bg-white shadow">
-                  <div className="p-3">
-                    <h2
-                      className="text-xl font-bold text-gray-900"
-                      id="announcements-title"
-                    >
-                      Job Feed
-                    </h2>
-                    <div className="mt-6 flow-root">
-                      <ul
-                        role="list"
-                        className="-my-5 divide-y divide-gray-200"
-                      >
-                        {announcements.map((announcement) => (
-                          <li key={announcement.id} className="py-5">
-                            <div className="relative focus-within:ring-2 focus-within:ring-cyan-500">
-                              <h3 className="text-sm font-semibold text-gray-800">
-                                <a
-                                  href={announcement.href}
-                                  className="hover:underline focus:outline-none"
-                                >
-                                  {/* Extend touch target to entire panel */}
-                                  <span
-                                    className="absolute inset-0"
-                                    aria-hidden="true"
-                                  />
-                                  {announcement.title}
-                                </a>
-                              </h3>
-                              <p className="mt-1 line-clamp-2 text-sm text-gray-600">
-                                {announcement.preview}
-                              </p>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="mt-6">
-                      <a
-                        href="#"
-                        className="flex w-full items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                      >
-                        View all
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </section>
-
               {/* Recent Hires */}
               <section aria-labelledby="recent-hires-title">
                 <div className="overflow-hidden rounded-lg bg-white shadow">
@@ -579,7 +530,7 @@ function Dashboard2({ children }) {
                       className="text-base font-medium text-gray-900"
                       id="recent-hires-title"
                     >
-                      Recent Hires
+                      Upcoming Interviews
                     </h2>
                     <div className="mt-6 flow-root">
                       <ul
@@ -612,6 +563,56 @@ function Dashboard2({ children }) {
                                   View
                                 </a>
                               </div>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="mt-6">
+                      <a
+                        href="#"
+                        className="flex w-full items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                      >
+                        View all
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section aria-labelledby="announcements-title">
+                <div className="overflow-hidden rounded-lg bg-white shadow">
+                  <div className="p-3">
+                    <h2
+                      className="text-xl font-bold text-gray-900"
+                      id="announcements-title"
+                    >
+                      New Opportunities
+                    </h2>
+                    <div className="mt-6 flow-root">
+                      <ul
+                        role="list"
+                        className="-my-5 divide-y divide-gray-200"
+                      >
+                        {announcements.map((announcement) => (
+                          <li key={announcement.id} className="py-5">
+                            <div className="relative focus-within:ring-2 focus-within:ring-cyan-500">
+                              <h3 className="text-sm font-semibold text-gray-800">
+                                <a
+                                  href={announcement.href}
+                                  className="hover:underline focus:outline-none"
+                                >
+                                  {/* Extend touch target to entire panel */}
+                                  <span
+                                    className="absolute inset-0"
+                                    aria-hidden="true"
+                                  />
+                                  {announcement.title}
+                                </a>
+                              </h3>
+                              <p className="mt-1 line-clamp-2 text-sm text-gray-600">
+                                {announcement.preview}
+                              </p>
                             </div>
                           </li>
                         ))}

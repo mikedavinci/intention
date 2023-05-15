@@ -247,39 +247,7 @@ const featuresTwo = [
     icon: LightBulbIcon,
   },
 ];
-const tiers = [
-  {
-    name: 'Hobby',
-    id: 'tier-hobby',
-    href: '#',
-    priceMonthly: '$19',
-    description:
-      "The perfect plan if you're just getting started with our product.",
-    features: [
-      '25 products',
-      'Up to 10,000 subscribers',
-      'Advanced analytics',
-      '24-hour support response time',
-    ],
-    featured: false,
-  },
-  {
-    name: 'Enterprise',
-    id: 'tier-enterprise',
-    href: '#',
-    priceMonthly: '$49',
-    description: 'Dedicated support and infrastructure for your company.',
-    features: [
-      'Unlimited products',
-      'Unlimited subscribers',
-      'Advanced analytics',
-      'Dedicated support representative',
-      'Marketing automations',
-      'Custom integrations',
-    ],
-    featured: true,
-  },
-];
+
 const faqs = [
   {
     question: 'Who can join CodeJourney.ai courses?',
@@ -414,11 +382,23 @@ const footerNavigation = {
   ],
 };
 
+export const getServerSideProps = async () => {
+  // replace 'http://localhost:3000' with your actual server address
+  const res = await fetch('http://localhost:8001/api/courses');
+  const courses = await res.json();
+  // console.log(courses);
+  return {
+    props: {
+      courses,
+    },
+  };
+};
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-function Home() {
+function Home({ courses }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
@@ -870,13 +850,13 @@ function Home() {
               </p>
             </div>
             <div className="mx-auto mt-10 grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 sm:mt-10 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-              {posts.map((post) => (
+              {courses.map((course) => (
                 <article
-                  key={post.id}
+                  key={course?.id}
                   className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80"
                 >
                   <img
-                    src={post.imageUrl}
+                    src={course?.image}
                     alt=""
                     className="absolute inset-0 -z-10 h-full w-full object-cover"
                   />
@@ -905,9 +885,9 @@ function Home() {
                     </div>
                   </div> */}
                   <h3 className="mt-3 text-xl font-semibold leading-6 text-white">
-                    <Link href={post.href}>
+                    <Link href={course?.title}>
                       <span className="absolute inset-0" />
-                      {post.title}
+                      {course?.title}
                     </Link>
                   </h3>
                 </article>

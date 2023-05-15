@@ -4,6 +4,8 @@ import { Fragment } from 'react';
 import { StarIcon } from '@heroicons/react/20/solid';
 import { Tab } from '@headlessui/react';
 import withAuth from '@/redux/withAuth';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const product = {
   name: 'Application UI Icon Pack',
@@ -98,18 +100,35 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-function CourseId() {
+export const getServerSideProps = async (context: any) => {
+  // Get the slug from the context
+  const slug = context.params.slug;
+
+  // Make the API request to fetch the course data
+  const res = await axios.get(`http://localhost:8001/api/courses/${slug}`);
+  const course = res.data;
+  // console.log(course);
+
+  // Return the course data as props
+  return {
+    props: {
+      course,
+    },
+  };
+};
+
+function CourseSlug({ course }) {
   return (
     <div className="bg-white">
       <div className="mx-auto px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        {/* Product */}
+        {/* Course */}
         <div className="lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16">
-          {/* Product image */}
+          {/* Course image */}
           <div className="lg:col-span-4 lg:row-end-1">
             <div className="aspect-h-3 aspect-w-4 overflow-hidden rounded-lg bg-gray-100">
               <img
-                src={product.imageSrc}
-                alt={product.imageAlt}
+                src={course?.image}
+                alt={course?.imageAlt}
                 className="object-cover object-center"
               />
             </div>
@@ -120,29 +139,29 @@ function CourseId() {
             <div className="flex flex-col-reverse">
               <div className="mt-4">
                 <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-                  {product.name}
+                  {course?.title}
                 </h1>
 
                 <h2 id="information-heading" className="sr-only">
-                  Product information
+                  Course information
                 </h2>
-                <p className="mt-2 text-sm text-gray-500">
+                {/* <p className="mt-2 text-sm text-gray-500">
                   Version {product.version.name} (Updated{' '}
                   <time dateTime={product.version.datetime}>
                     {product.version.date}
                   </time>
                   )
-                </p>
+                </p> */}
               </div>
 
               <div>
-                <h3 className="sr-only">Reviews</h3>
+                <h3 className="sr-only">Rating</h3>
                 <div className="flex items-center">
                   {[0, 1, 2, 3, 4].map((rating) => (
                     <StarIcon
                       key={rating}
                       className={classNames(
-                        reviews.average > rating
+                        course.rating > rating
                           ? 'text-yellow-400'
                           : 'text-gray-300',
                         'h-5 w-5 flex-shrink-0'
@@ -151,11 +170,12 @@ function CourseId() {
                     />
                   ))}
                 </div>
-                <p className="sr-only">{reviews.average} out of 5 stars</p>
+                <p className="py-1">{course.num_reviews} Reviews</p>
+                <p className="sr-only">{course.rating} out of 5 stars</p>
               </div>
             </div>
 
-            <p className="mt-6 text-gray-500">{product.description}</p>
+            <p className="mt-6 text-gray-500">{course.longDescription}</p>
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
               <button
@@ -391,8 +411,8 @@ function CourseId() {
   );
 }
 
-export default withAuth(CourseId, true, Dashboard3);
+export default withAuth(CourseSlug, true, Dashboard3);
 
-CourseId.getLayout = function getLayout(page: any, pageProps: any) {
+CourseSlug.getLayout = function getLayout(page: any, pageProps: any) {
   return <Dashboard3 {...pageProps}>{page}</Dashboard3>;
 };
