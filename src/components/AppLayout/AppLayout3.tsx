@@ -12,6 +12,8 @@ import {
   UserGroupIcon,
   XMarkIcon,
   MapIcon,
+  PuzzlePieceIcon,
+  RocketLaunchIcon,
 } from '@heroicons/react/24/outline';
 import {
   Bars4Icon,
@@ -37,11 +39,16 @@ const navigation = [
     icon: Squares2X2IconOutline,
     current: false,
   },
-  { name: 'Projects', href: '/projects', icon: PhotoIcon, current: true },
+  {
+    name: 'Projects',
+    href: '/projects',
+    icon: RocketLaunchIcon,
+    current: true,
+  },
   {
     name: 'Exercises',
     href: '/exercises',
-    icon: UserGroupIcon,
+    icon: PuzzlePieceIcon,
     current: false,
   },
   {
@@ -649,7 +656,7 @@ function Dashboard2({ children }) {
           </div>
           <div className="mt-8 md:order-1 md:mt-0">
             <p className="text-center text-xs leading-5 text-gray-500">
-              &copy; 2020 Your Company, Inc. All rights reserved.
+              &copy; 2023 CodeJourney.ai All rights reserved.
             </p>
           </div>
         </div>

@@ -6,6 +6,11 @@ import { Tab } from '@headlessui/react';
 import withAuth from '@/redux/withAuth';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { HomeIcon } from '@heroicons/react/20/solid';
+import { BackwardIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+
+const pages = [{ name: 'Go Back', href: '/courses', current: false }];
 
 const product = {
   name: 'Application UI Icon Pack',
@@ -175,18 +180,18 @@ function CourseSlug({ course }) {
               </div>
             </div>
 
-            <p className="mt-6 text-gray-500">{course.longDescription}</p>
+            <p className="mt-6 text-black">{course.longDescription}</p>
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
               <button
                 type="button"
-                className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-xl font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 "
               >
-                Pay {product.price}
+                ${course.price}
               </button>
               <button
                 type="button"
-                className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-50 px-8 py-3 text-base font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-50 px-8 py-3 text-xl font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
               >
                 Preview
               </button>

@@ -16,11 +16,12 @@ const withAuth = (
     const isAuthenticated = useSelector(
       (state: RootState) => state.auth.isAuthenticated
     );
+    // console.log('isAuthenticated', isAuthenticated);
     const router = useRouter();
     const token = Cookies.get('access_token');
 
     useEffect(() => {
-      if (ProtectedComponent && !(isAuthenticated || token)) {
+      if (ProtectedComponent && (!isAuthenticated || !token)) {
         router.replace('/user/login');
       }
     }, [isAuthenticated, token, router]);

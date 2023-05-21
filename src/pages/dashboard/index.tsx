@@ -1,51 +1,17 @@
 import Head from 'next/head';
-import { Inter } from 'next/font/google';
-import styles from '@/styles/Home.module.css';
-import { Disclosure, Menu, RadioGroup, Transition } from '@headlessui/react';
 import {
-  HomeIcon,
-  MagnifyingGlassIcon,
-  PlusIcon,
-  Bars4Icon,
   Squares2X2Icon as Squares2X2IconMini,
-  BanknotesIcon,
-  BuildingOfficeIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
   CheckCircleIcon,
   AcademicCapIcon,
   ArrowRightCircleIcon,
   ExclamationCircleIcon,
 } from '@heroicons/react/20/solid';
-import {
-  Bars3Icon,
-  BellIcon,
-  PencilIcon,
-  EllipsisVerticalIcon,
-  XMarkIcon,
-  HeartIcon,
-  Bars3CenterLeftIcon,
-  ClockIcon,
-  CogIcon,
-  CreditCardIcon,
-  DocumentChartBarIcon,
-  QuestionMarkCircleIcon,
-  ScaleIcon,
-  ShieldCheckIcon,
-  UserGroupIcon,
-} from '@heroicons/react/24/outline';
-import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import Dashboard2 from '@/components/AppLayout/AppLayout3';
-import { Fragment, useEffect, useState } from 'react';
-import { CheckIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import Dashboard3 from '@/components/AppLayout/AppLayout4';
+import { useEffect, useState } from 'react';
+
 import withAuth from '@/redux/withAuth';
-import { loginSuccess, logout } from '@/redux/authSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/store';
-import axiosInstance from '@/interceptors/axios';
-import Cookies from 'js-cookie';
 
 const posts = [
   {
